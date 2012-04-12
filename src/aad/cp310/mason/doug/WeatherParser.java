@@ -17,12 +17,10 @@ public class WeatherParser {
 	{
 		this.myWeather = new WeatherCollection();
 	}
-	
 	public void endDocument() throws SAXException
 	{
 		//there is nothing to be done here
 	}
-	
 	public void StartElement(String uri,String localName,String qName,Attributes att) throws SAXException
 	{
 		if(localName.equals("forecast_information"))
@@ -82,7 +80,8 @@ public class WeatherParser {
 				{
 					this.myWeather.getCurrentConditions().setDayOfWeek(data);
 				}
-				else if(this.inForecastCond){
+				else if(this.inForecastCond)
+				{
 					this.myWeather.getLastForecastCondition().setDayOfWeek(data);	
 				}
 			}
@@ -92,9 +91,11 @@ public class WeatherParser {
 					{
 						this.myWeather.getCurrentConditions().setIconPath(data);
 					}
-					else if(this.inForecastCond){
+					else if(this.inForecastCond)
+					{
 						this.myWeather.getLastForecastCondition().setIconPath(data);
 					}
+				}
 					else if(localName.equals("condition"))
 					{
 						if(this.inCurrent)
@@ -107,11 +108,48 @@ public class WeatherParser {
 					}
 					else if(localName.equals("temp_f"))
 					{
-						
+						myWeather.getCurrentConditions().setTempF(Integer.parseInt(data));
 					}
+					else if(localName.equals("temp_c"))
+					{
+						myWeather.getCurrentConditions().setTempC(Integer.parseInt(data));
+					}
+					else if (localName.equals("humidity")) 
+					{
+                        this.myWeather.getCurrentConditions().setHumidity(data);
+                    }
+					else if (localName.equals("wind_condition")) 
+					{
+                        this.myWeather.getCurrentConditions()
+                                        .setWind(data);
+                    }
+                // 'Inner' Tags within forecast conditions
 					
-					
-				}
+                else if (localName.equals("low")) 
+                {
+                        int temp = Integer.parseInt(data);
+                        if (this.inDegC) {
+                                this.myWeather.getLastForecastCondition()
+                                                .setTempLow(Utilities.fToC(temp));
+                        } 
+                        else {
+                                this.myWeather.getLastForecastCondition()
+                                                .setTempLow(temp);
+                        }
+                } 
+                else if (localName.equals("high")) 
+                {
+                        int temp = Integer.parseInt(data);
+                        if (this.inDegC) 
+                        {
+                                this.myWeather.getLastForecastCondition().setTempHigh(Utilities.cToF(temp));
+                        } 
+                        
+                        else 
+                        {
+                        	this.myWeather.getLastForecastCondition().setTempHigh(temp);
+                        }
+                 }
 		}
 	}
 
