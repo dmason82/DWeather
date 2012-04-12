@@ -25,7 +25,7 @@ public class WeatherParser {
 	{
 		if(localName.equals("forecast_information"))
 		{
-			this.inForecastInfo = true;
+			this.setInForecastInfo(true);
 		}
 		else if (localName.equals("current_conditions"))
 		{
@@ -108,11 +108,11 @@ public class WeatherParser {
 					}
 					else if(localName.equals("temp_f"))
 					{
-						myWeather.getCurrentConditions().setTempF(Integer.parseInt(data));
+						myWeather.getCurrentConditions().setTemp(Integer.parseInt(data));
 					}
 					else if(localName.equals("temp_c"))
 					{
-						myWeather.getCurrentConditions().setTempC(Integer.parseInt(data));
+						myWeather.getCurrentConditions().setTemp(Utilities.cToF(Integer.parseInt(data)));
 					}
 					else if (localName.equals("humidity")) 
 					{
@@ -151,6 +151,28 @@ public class WeatherParser {
                         }
                  }
 		}
+	}
+	public void endElement(String uri,String localName,String qName) throws SAXException
+	{
+		if (localName.equals("forecast_information"))
+		{
+			this.inForecastInfo = false;
+		}
+		else if(localName.equals("current_conditions"))
+		{
+			this.inCurrent = false;
+		}
+		else if(localName.equals("forecast_conditions"))
+		{
+			this.inForecastCond = false;
+		}
+	}
+	public boolean isInForecastInfo() {
+		return inForecastInfo;
+	}
+
+	public void setInForecastInfo(boolean inForecastInfo) {
+		this.inForecastInfo = inForecastInfo;
 	}
 
 }
