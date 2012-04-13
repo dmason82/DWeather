@@ -49,6 +49,7 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
         fourDayTemp = (TextView)findViewById(R.id.fourDayDegreeText); 
         fourDayImage = (ImageView)findViewById(R.id.fourDayImage);
         submit.setOnClickListener(this);
+        fetchWeather();
     }
 	@Override
 	public void onClick(View v) {
@@ -56,48 +57,51 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
 		switch(v.getId())
 		{
 		case R.id.goButton:
-			try
-			{
-				city = cityText.getText().toString();
-				String query = "http://www.google.com/ig/api?weather="+city;
-				String q = query.replace(" ", "%20");
-				Log.v("Debug",q);
-				url = new URL(q);
-				
-				SAXParserFactory factory = SAXParserFactory.newInstance();
-				SAXParser parser = factory.newSAXParser();
-				XMLReader reader = parser.getXMLReader();
-				WeatherParser process = new WeatherParser();
-				reader.setContentHandler(process);
-				reader.parse(new InputSource(url.openStream()));
-				WeatherCollection col = process.getWeather();
-//				Log.v("Test",col.getCurrentConditions().toString());
-				
-				//Current
-				currentTemp.setText(col.getCurrentConditions().getTemp().toString()+"¡F");
-				this.setImageForURL(currentImage,"http://www.google.com"+col.getCurrentConditions().getIconPath());
-				
-				
-				//Today Forecast
-				todayTemp.setText(Integer.toString(col.getForecastCondtions().get(0).getHighTemp())+"¡F");
-				this.setImageForURL(todayImage,"http://www.google.com"+col.getForecastCondtions().get(0).getIcon());
-				
-				//Tomorrow Forecast
-				tomorrowTemp.setText(Integer.toString(col.getForecastCondtions().get(1).getHighTemp())+"¡F");
-				this.setImageForURL(tomorrowImage,"http://www.google.com"+col.getForecastCondtions().get(1).getIcon());
-				
-				//Three Day Forecast
-				threeDayTemp.setText(Integer.toString(col.getForecastCondtions().get(2).getHighTemp())+"¡F");
-				this.setImageForURL(threeDayImage,"http://www.google.com"+col.getForecastCondtions().get(2).getIcon());
-				
-				//Four Day Forecast
-				fourDayTemp.setText(Integer.toString(col.getForecastCondtions().get(3).getHighTemp())+"¡F");
-				this.setImageForURL(fourDayImage,"http://www.google.com"+col.getForecastCondtions().get(3).getIcon());
-			}
-			catch(Exception e)
-			{
-				Log.e("ERROR!","Weather query error",e);
-			}
+			this.fetchWeather();
+		}
+	}
+	private void fetchWeather() {
+		// TODO Auto-generated method stub
+		try
+		{
+			city = cityText.getText().toString();
+			String query = "http://www.google.com/ig/api?weather="+city;
+			String q = query.replace(" ", "%20");
+			Log.v("Debug",q);
+			url = new URL(q);
+			
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser parser = factory.newSAXParser();
+			XMLReader reader = parser.getXMLReader();
+			WeatherParser process = new WeatherParser();
+			reader.setContentHandler(process);
+			reader.parse(new InputSource(url.openStream()));
+			WeatherCollection col = process.getWeather();
+//			Log.v("Test",col.getCurrentConditions().toString());
+			
+			//Current
+			currentTemp.setText(col.getCurrentConditions().getTemp().toString()+"¡F");
+			this.setImageForURL(currentImage,"http://www.google.com"+col.getCurrentConditions().getIconPath());
+			
+			//Today Forecast
+			todayTemp.setText(Integer.toString(col.getForecastCondtions().get(0).getHighTemp())+"¡F");
+			this.setImageForURL(todayImage,"http://www.google.com"+col.getForecastCondtions().get(0).getIcon());
+			
+			//Tomorrow Forecast
+			tomorrowTemp.setText(Integer.toString(col.getForecastCondtions().get(1).getHighTemp())+"¡F");
+			this.setImageForURL(tomorrowImage,"http://www.google.com"+col.getForecastCondtions().get(1).getIcon());
+			
+			//Three Day Forecast
+			threeDayTemp.setText(Integer.toString(col.getForecastCondtions().get(2).getHighTemp())+"¡F");
+			this.setImageForURL(threeDayImage,"http://www.google.com"+col.getForecastCondtions().get(2).getIcon());
+			
+			//Four Day Forecast
+			fourDayTemp.setText(Integer.toString(col.getForecastCondtions().get(3).getHighTemp())+"¡F");
+			this.setImageForURL(fourDayImage,"http://www.google.com"+col.getForecastCondtions().get(3).getIcon());
+		}
+		catch(Exception e)
+		{
+			Log.e("ERROR!","Weather query error",e);
 		}
 	}
 	private void setImageForURL(ImageView image, String iconPath) {
