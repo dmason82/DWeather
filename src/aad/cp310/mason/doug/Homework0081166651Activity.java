@@ -12,25 +12,30 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
-public class Homework0081166651Activity extends Activity implements OnClickListener {
+public class Homework0081166651Activity extends Activity implements OnClickListener,OnEditorActionListener {
     /** Called when the activity is first created. */
 
     private EditText cityText;
     private Button submit;
     private URL url;
     private String city;
-    private TextView currentTemp,todayTemp,tomorrowTemp,threeDayTemp,fourDayTemp;
+    private TextView currentTemp,currentWind,currentDay,currentHumidity,currentCondition,currentLabel,todayDay,todayHigh,todayLow,todayCondition,cityLabel,
+    tomorrowDay,tomorrowHigh,tomorrowLow,tomorrowCondition,threeDayDay,threeDayHigh,threeDayLow,threeDayCondition,fourDayDay,fourDayHigh,fourDayLow,fourDayCondition;
     private ImageView currentImage,todayImage,tomorrowImage,threeDayImage,fourDayImage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,16 +43,48 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
         setContentView(R.layout.main);
         submit = (Button)findViewById(R.id.goButton);
         cityText = (EditText)findViewById(R.id.cityText);
+        cityLabel=(TextView)findViewById(R.id.cityWeatherLabel);
+        cityText.setOnEditorActionListener(this);
+                
+        //Current day
         currentTemp = (TextView)findViewById(R.id.currentDegreeText); 
         currentImage = (ImageView)findViewById(R.id.currentImage);
-        todayTemp = (TextView)findViewById(R.id.todayDegreeText); 
+        currentWind = (TextView) findViewById(R.id.currentWindText);
+        currentHumidity=(TextView)findViewById(R.id.currentHumidityText);
+        currentCondition=(TextView)findViewById(R.id.currentConditionText);
+        currentDay = (TextView)findViewById(R.id.currentDayText);
+        
+        //Today's forecast
+        todayDay = (TextView)findViewById(R.id.todayForecastLabel);
+        todayHigh = (TextView)findViewById(R.id.todayHighText); 
+        todayLow = (TextView)findViewById(R.id.todayLowText);
+        todayCondition = (TextView)findViewById(R.id.todayConditionText);
         todayImage = (ImageView)findViewById(R.id.todayImage);
-        tomorrowTemp = (TextView)findViewById(R.id.tomorrowDegreeText); 
+       
+        //Tomorrow's forecast
+        tomorrowDay = (TextView)findViewById(R.id.tomorrowForecastLabel);
+        tomorrowHigh = (TextView)findViewById(R.id.tomorrowHighText); 
+        tomorrowLow = (TextView)findViewById(R.id.tomorrowLowText);
+        tomorrowCondition = (TextView)findViewById(R.id.tomorrowConditionText);
         tomorrowImage = (ImageView)findViewById(R.id.tomorrowImage);
-        threeDayTemp = (TextView)findViewById(R.id.threeDayDegreeText); 
+        
+        //Three days out
+        threeDayDay = (TextView)findViewById(R.id.threeDayForecastLabel);
+        threeDayHigh = (TextView)findViewById(R.id.threeDayHighText); 
+        threeDayLow = (TextView)findViewById(R.id.threeDayLowText);
+        threeDayCondition = (TextView)findViewById(R.id.threeDayConditionText);
         threeDayImage = (ImageView)findViewById(R.id.threeDayImage);
-        fourDayTemp = (TextView)findViewById(R.id.fourDayDegreeText); 
+        
+        //Four Days out
+        fourDayDay = (TextView)findViewById(R.id.fourDayForecastLabel);
+        fourDayHigh = (TextView)findViewById(R.id.fourDayHighText); 
+        fourDayLow = (TextView)findViewById(R.id.fourDayLowText);
+        fourDayCondition = (TextView)findViewById(R.id.fourDayConditionText);
         fourDayImage = (ImageView)findViewById(R.id.fourDayImage);
+        
+        
+        
+        
         submit.setOnClickListener(this);
         fetchWeather();
     }
@@ -81,22 +118,39 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
 			
 			//Current
 			currentTemp.setText(col.getCurrentConditions().getTemp().toString()+"¡F");
+			currentDay.setText(col.getCurrentConditions().getDay());
+			currentWind.setText(col.getCurrentConditions().getWind());
+			currentHumidity.setText(col.getCurrentConditions().getHumidity());
+			currentCondition.setText(col.getCurrentConditions().getCondition());
+			cityLabel.setText("Weather for "+col.getCurrentConditions().getCity());
 			this.setImageForURL(currentImage,"http://www.google.com"+col.getCurrentConditions().getIconPath());
 			
 			//Today Forecast
-			todayTemp.setText(Integer.toString(col.getForecastCondtions().get(0).getHighTemp())+"¡F");
+			todayDay.setText(col.getForecastCondtions().get(0).getDay());
+			todayLow.setText("Low: "+ col.getForecastCondtions().get(0).getLowTemp()+"¡F");
+			todayHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(0).getHighTemp())+"¡F");
+			todayCondition.setText(col.getForecastCondtions().get(0).getCondition());
 			this.setImageForURL(todayImage,"http://www.google.com"+col.getForecastCondtions().get(0).getIcon());
 			
 			//Tomorrow Forecast
-			tomorrowTemp.setText(Integer.toString(col.getForecastCondtions().get(1).getHighTemp())+"¡F");
+			tomorrowDay.setText(col.getForecastCondtions().get(1).getDay());
+			tomorrowLow.setText("Low: "+ col.getForecastCondtions().get(1).getLowTemp()+"¡F");
+			tomorrowHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(1).getHighTemp())+"¡F");
+			tomorrowCondition.setText(col.getForecastCondtions().get(1).getCondition());
 			this.setImageForURL(tomorrowImage,"http://www.google.com"+col.getForecastCondtions().get(1).getIcon());
 			
 			//Three Day Forecast
-			threeDayTemp.setText(Integer.toString(col.getForecastCondtions().get(2).getHighTemp())+"¡F");
+			threeDayDay.setText(col.getForecastCondtions().get(2).getDay());
+			threeDayLow.setText("Low: "+ col.getForecastCondtions().get(2).getLowTemp()+"¡F");
+			threeDayHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(2).getHighTemp())+"¡F");
+			threeDayCondition.setText(col.getForecastCondtions().get(2).getCondition());
 			this.setImageForURL(threeDayImage,"http://www.google.com"+col.getForecastCondtions().get(2).getIcon());
 			
 			//Four Day Forecast
-			fourDayTemp.setText(Integer.toString(col.getForecastCondtions().get(3).getHighTemp())+"¡F");
+			fourDayDay.setText(col.getForecastCondtions().get(3).getDay());
+			fourDayLow.setText("Low: "+ col.getForecastCondtions().get(3).getLowTemp()+"¡F");
+			fourDayHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(3).getHighTemp())+"¡F");
+			fourDayCondition.setText(col.getForecastCondtions().get(3).getCondition());
 			this.setImageForURL(fourDayImage,"http://www.google.com"+col.getForecastCondtions().get(3).getIcon());
 		}
 		catch(Exception e)
@@ -124,5 +178,17 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
 			image.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
 		}
 		
+	}
+	@Override
+	public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+		// TODO Auto-generated method stub
+		if (arg2 != null && arg2.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+		{
+			InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(arg0.getApplicationWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+            this.fetchWeather();
+		}
+		return false;
 	}
 }

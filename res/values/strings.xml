@@ -5,5 +5,8 @@
     <string name="app_name">Homework 008 1166651</string>
     <string name="defaultCity">Seattle WA</string>
     <string name="go">Go</string>
+    <string name="wind">Wind</string>
+    <string name="current">Currently</string>
+    <string name="dayText">day</string>
 
 </resources>

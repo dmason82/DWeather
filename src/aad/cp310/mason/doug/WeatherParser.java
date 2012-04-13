@@ -32,11 +32,11 @@ public class WeatherParser extends DefaultHandler {
 		if(localName.equals("forecast_information"))
 		{
 			this.setInForecastInfo(true);
+			this.myWeather.setCurrentCondtions(new WeatherCurrentCondition());
 		}
 		else if (localName.equals("current_conditions"))
 		{
 //			Log.v("notify","Starting Current Conditions");
-			this.myWeather.setCurrentCondtions(new WeatherCurrentCondition());
 			this.inCurrent = true;
 		}
 		else if (localName.equals("forecast_conditions"))
@@ -52,11 +52,9 @@ public class WeatherParser extends DefaultHandler {
 			if (localName.equals("city"))
 			{
 				Log.v("City",data);
+				this.myWeather.getCurrentConditions().setCity(data);
 			}
 			else if(localName.equals("postal_code"))
-			{
-			}
-			else if(localName.equals("postal code"))
 			{
 			}
 			else if(localName.equals("latitude_e6"))
@@ -69,11 +67,13 @@ public class WeatherParser extends DefaultHandler {
 			}
 			else if(localName.equals("forecast_date"))
 			{
-				
+				//this.myWeather.getLastForecastCondition().setDay(data);
+				this.myWeather.getCurrentConditions().setDayOfWeek(data);
 			}
 			else if(localName.equals("current_date_time"))
 			{
-				
+				//Log.v("Data check",data);
+				//
 			}
 			else if(localName.equals("unit_system"))
 			{
@@ -118,11 +118,14 @@ public class WeatherParser extends DefaultHandler {
 					}
 					else if(localName.equals("temp_f"))
 					{
+						Log.v("Current temp",data);
 						myWeather.getCurrentConditions().setTemp(Integer.parseInt(data));
 					}
 					else if(localName.equals("temp_c"))
 					{
+						if(this.inDegC){
 						myWeather.getCurrentConditions().setTemp(Utilities.cToF(Integer.parseInt(data)));
+						}
 					}
 					else if (localName.equals("humidity")) 
 					{

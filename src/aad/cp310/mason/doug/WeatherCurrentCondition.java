@@ -1,7 +1,7 @@
 package aad.cp310.mason.doug;
 
 public class WeatherCurrentCondition {
-	private String day,iconPath,humidity,condition,wind;
+	private String day,iconPath,humidity,condition,wind,city;
 	private Integer temp;
 	public void setDayOfWeek(String data) {
 		// TODO Auto-generated method stub
@@ -50,5 +50,13 @@ public class WeatherCurrentCondition {
 	public Integer getTemp()
 	{
 		return temp;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 }
