@@ -24,9 +24,10 @@ public class WeatherParser extends DefaultHandler {
 	{
 		//there is nothing to be done here
 	}
-	public void StartElement(String uri,String localName,String qName,Attributes att) throws SAXException
+	@Override
+	public void startElement(String uri,String localName,String qName,Attributes att) throws SAXException
 	{
-		Log.v("Starting parsing on",localName);
+//		Log.v("Starting parsing on",localName);
 		//Top level responses
 		if(localName.equals("forecast_information"))
 		{
@@ -34,20 +35,20 @@ public class WeatherParser extends DefaultHandler {
 		}
 		else if (localName.equals("current_conditions"))
 		{
-			Log.v("notify","Starting Current Conditions");
+//			Log.v("notify","Starting Current Conditions");
 			this.myWeather.setCurrentCondtions(new WeatherCurrentCondition());
 			this.inCurrent = true;
 		}
 		else if (localName.equals("forecast_conditions"))
 		{
-			Log.v("Level",localName);
+//			Log.v("Level",localName);
 			this.myWeather.getForecastCondtions().add(new ForecastWeather());
 			this.inForecastCond = true;
 		}
 		else
 		{
 			String data = att.getValue("data");
-			Log.v("top level",data);
+			//Log.v("top level",data);
 			if (localName.equals("city"))
 			{
 				Log.v("City",data);
@@ -161,6 +162,10 @@ public class WeatherParser extends DefaultHandler {
                  }
 		}
 	}
+//	public void startElement(String )
+//	{
+//		
+//	}
 	public void endElement(String uri,String localName,String qName) throws SAXException
 	{
 		if (localName.equals("forecast_information"))

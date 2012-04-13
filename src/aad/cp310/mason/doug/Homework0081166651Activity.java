@@ -30,17 +30,24 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
     private Button submit;
     private URL url;
     private String city;
-    private TextView todayTemp;
-    private ImageView todayImage;
+    private TextView currentTemp,todayTemp,tomorrowTemp,threeDayTemp,fourDayTemp;
+    private ImageView currentImage,todayImage,tomorrowImage,threeDayImage,fourDayImage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         submit = (Button)findViewById(R.id.goButton);
         cityText = (EditText)findViewById(R.id.cityText);
-        todayTemp = (TextView)findViewById(R.id.todayDegreeText);
-        
+        currentTemp = (TextView)findViewById(R.id.currentDegreeText); 
+        currentImage = (ImageView)findViewById(R.id.currentImage);
+        todayTemp = (TextView)findViewById(R.id.todayDegreeText); 
         todayImage = (ImageView)findViewById(R.id.todayImage);
+        tomorrowTemp = (TextView)findViewById(R.id.tomorrowDegreeText); 
+        tomorrowImage = (ImageView)findViewById(R.id.tomorrowImage);
+        threeDayTemp = (TextView)findViewById(R.id.threeDayDegreeText); 
+        threeDayImage = (ImageView)findViewById(R.id.threeDayImage);
+        fourDayTemp = (TextView)findViewById(R.id.fourDayDegreeText); 
+        fourDayImage = (ImageView)findViewById(R.id.fourDayImage);
         submit.setOnClickListener(this);
     }
 	@Override
@@ -65,8 +72,27 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
 				reader.parse(new InputSource(url.openStream()));
 				WeatherCollection col = process.getWeather();
 //				Log.v("Test",col.getCurrentConditions().toString());
-//				todayTemp.setText(col.getCurrentConditions().getTemp().toString()+"¡F");
-//				this.setImageForURL(todayImage,col.getCurrentConditions().getIconPath());
+				
+				//Current
+				currentTemp.setText(col.getCurrentConditions().getTemp().toString()+"¡F");
+				this.setImageForURL(currentImage,"http://www.google.com"+col.getCurrentConditions().getIconPath());
+				
+				
+				//Today Forecast
+				todayTemp.setText(Integer.toString(col.getForecastCondtions().get(0).getHighTemp())+"¡F");
+				this.setImageForURL(todayImage,"http://www.google.com"+col.getForecastCondtions().get(0).getIcon());
+				
+				//Tomorrow Forecast
+				tomorrowTemp.setText(Integer.toString(col.getForecastCondtions().get(1).getHighTemp())+"¡F");
+				this.setImageForURL(tomorrowImage,"http://www.google.com"+col.getForecastCondtions().get(1).getIcon());
+				
+				//Three Day Forecast
+				threeDayTemp.setText(Integer.toString(col.getForecastCondtions().get(2).getHighTemp())+"¡F");
+				this.setImageForURL(threeDayImage,"http://www.google.com"+col.getForecastCondtions().get(2).getIcon());
+				
+				//Four Day Forecast
+				fourDayTemp.setText(Integer.toString(col.getForecastCondtions().get(3).getHighTemp())+"¡F");
+				this.setImageForURL(fourDayImage,"http://www.google.com"+col.getForecastCondtions().get(3).getIcon());
 			}
 			catch(Exception e)
 			{
@@ -90,6 +116,7 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
 		}
 		catch(Exception e)
 		{
+			Log.v("Exception!",e.toString());
 			image.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
 		}
 		
