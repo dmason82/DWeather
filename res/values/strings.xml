@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, Homework0081166651Activity!</string>
     <string name="app_name">Homework 008 1166651</string>
+    <string name="defaultCity">Seattle WA</string>
+    <string name="go">Go</string>
 
 </resources>

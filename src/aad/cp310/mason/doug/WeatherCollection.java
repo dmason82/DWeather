@@ -5,7 +5,8 @@ public class WeatherCollection {
 private WeatherCurrentCondition current = null;
 private ArrayList<ForecastWeather> forecast = new ArrayList<ForecastWeather>(4);
 
-public WeatherCurrentCondition getCurrentConditions(){
+public WeatherCurrentCondition getCurrentConditions()
+{
 	return this.current;
 	
 }
@@ -13,7 +14,8 @@ public void setCurrentCondtions(WeatherCurrentCondition curr)
 {
 	this.current = curr;
 }
-public ArrayList<ForecastWeather> getForecastCondtions(){
+public ArrayList<ForecastWeather> getForecastCondtions()
+{
 	return this.forecast;
 }
 public void setForecastConditions(ArrayList<ForecastWeather> list){

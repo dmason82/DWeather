@@ -2,7 +2,9 @@ package aad.cp310.mason.doug;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-public class WeatherParser {
+
+import android.util.Log;
+public class WeatherParser extends DefaultHandler {
 	private WeatherCollection myWeather = null;
 	private boolean inForecastInfo = false;
 	private boolean inCurrent = false;
@@ -15,6 +17,7 @@ public class WeatherParser {
 	
 	public void startDocument() throws SAXException
 	{
+		Log.v("Notify","Document started");
 		this.myWeather = new WeatherCollection();
 	}
 	public void endDocument() throws SAXException
@@ -23,26 +26,31 @@ public class WeatherParser {
 	}
 	public void StartElement(String uri,String localName,String qName,Attributes att) throws SAXException
 	{
+		Log.v("Starting parsing on",localName);
+		//Top level responses
 		if(localName.equals("forecast_information"))
 		{
 			this.setInForecastInfo(true);
 		}
 		else if (localName.equals("current_conditions"))
 		{
+			Log.v("notify","Starting Current Conditions");
 			this.myWeather.setCurrentCondtions(new WeatherCurrentCondition());
 			this.inCurrent = true;
 		}
 		else if (localName.equals("forecast_conditions"))
 		{
+			Log.v("Level",localName);
 			this.myWeather.getForecastCondtions().add(new ForecastWeather());
 			this.inForecastCond = true;
 		}
 		else
 		{
 			String data = att.getValue("data");
+			Log.v("top level",data);
 			if (localName.equals("city"))
 			{
-				
+				Log.v("City",data);
 			}
 			else if(localName.equals("postal_code"))
 			{
@@ -78,6 +86,7 @@ public class WeatherParser {
 				//Shared data types between forecast and current conditions
 				if(this.inCurrent)
 				{
+					Log.v("Notification",data);
 					this.myWeather.getCurrentConditions().setDayOfWeek(data);
 				}
 				else if(this.inForecastCond)

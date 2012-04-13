@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <ImageView
             android:id="@+id/currentImage"
             android:layout_width="wrap_content"
@@ -41,7 +42,6 @@
             android:layout_toRightOf="@+id/currentTempText"
             android:text="currentDegreeText"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -49,13 +49,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/currentForecastLayout" >
-        
+
         <TextView
             android:id="@+id/todayForecastLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <ImageView
             android:id="@+id/todayImage"
             android:layout_width="wrap_content"
@@ -82,7 +83,6 @@
             android:layout_toRightOf="@+id/currentTempText"
             android:text="TodayDegreeText"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -90,13 +90,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/todayForecastLayout" >
-                
+
         <TextView
             android:id="@+id/tomorrowForecastLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <ImageView
             android:id="@+id/tomorrowImage"
             android:layout_width="wrap_content"
@@ -123,7 +124,6 @@
             android:layout_toRightOf="@+id/tomorrowTempText"
             android:text="currentDegreeText"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -131,13 +131,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tomorrowForecastLayout" >
-                        
+
         <TextView
             android:id="@+id/threeDayForecastLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <ImageView
             android:id="@+id/threeDayImage"
             android:layout_width="wrap_content"
@@ -164,7 +165,6 @@
             android:layout_toRightOf="@+id/threeDayTempText"
             android:text="currentDegreeText"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -172,13 +172,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/threeDayForecastLayout" >
-                        
+
         <TextView
             android:id="@+id/fourDayForecastLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <ImageView
             android:id="@+id/fourDayImage"
             android:layout_width="wrap_content"
@@ -205,7 +206,36 @@
             android:layout_toRightOf="@+id/fourDayTempText"
             android:text="currentDegreeText"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-        
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/fourDayForecastLayout" >
+
+        <EditText
+            android:id="@+id/cityText"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/goButton"
+            android:text="@string/defaultCity" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/goButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/go" />
+
     </RelativeLayout>
 
 </RelativeLayout>
