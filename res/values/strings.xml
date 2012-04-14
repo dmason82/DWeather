@@ -8,5 +8,6 @@
     <string name="wind">Wind</string>
     <string name="current">Currently</string>
     <string name="dayText">day</string>
+    <string name="inC">in °C</string>
 
 </resources>

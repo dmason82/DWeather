@@ -3,7 +3,7 @@ package aad.cp310.mason.doug;
 public class Utilities {
 	static int fToC(int temp)
 	{
-		return(int)((5.0f/9/0f)*(temp)-32);
+		return(int)((5.0f/9.0f)*(temp-32));
 	}
 	static int cToF(int temp)
 	{

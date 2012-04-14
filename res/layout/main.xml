@@ -29,14 +29,23 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="@string/go" />
-
+        
+        <CheckBox
+            android:id="@+id/inCCheck"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/cityText"
+            android:text="@string/inC" />
+        
         <TextView
             android:id="@+id/cityWeatherLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cityText"
+            android:layout_below="@+id/inCCheck"
             android:text="Weather for city:"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
 
     </RelativeLayout>
 
