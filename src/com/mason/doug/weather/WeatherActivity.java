@@ -1,4 +1,4 @@
-package aad.cp310.mason.doug;
+package com.mason.doug.weather;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,7 +31,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.CompoundButton.OnCheckedChangeListener; 
 
-public class Homework0081166651Activity extends Activity implements OnClickListener,OnEditorActionListener,OnCheckedChangeListener {
+public class WeatherActivity extends Activity implements OnClickListener,OnEditorActionListener,OnCheckedChangeListener {
     /** Called when the activity is first created. */
 
     private EditText cityText;
@@ -108,7 +109,7 @@ public class Homework0081166651Activity extends Activity implements OnClickListe
 			city = cityText.getText().toString();
 			String query = "http://www.google.com/ig/api?weather="+city;
 			String q = query.replace(" ", "%20");
-			Log.v("Debug",q);
+//			Log.v("Debug",q);
 			url = new URL(q);
 			
 			SAXParserFactory factory = SAXParserFactory.newInstance();

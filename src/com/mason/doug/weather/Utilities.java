@@ -1,4 +1,4 @@
-package aad.cp310.mason.doug;
+package com.mason.doug.weather;
 
 public class Utilities {
 	static int fToC(int temp)

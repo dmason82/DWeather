@@ -1,4 +1,4 @@
-package aad.cp310.mason.doug;
+package com.mason.doug.weather;
 
 public class WeatherCurrentCondition {
 	private String day,iconPath,humidity,condition,wind,city;

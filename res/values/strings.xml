@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, Homework0081166651Activity!</string>
-    <string name="app_name">Homework 008 1166651</string>
+    <string name="app_name">DWeather</string>
     <string name="defaultCity">Seattle WA</string>
     <string name="go">Go</string>
     <string name="wind">Wind</string>

@@ -1,4 +1,4 @@
-package aad.cp310.mason.doug;
+package com.mason.doug.weather;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
