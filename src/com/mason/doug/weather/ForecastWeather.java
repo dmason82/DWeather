@@ -14,7 +14,7 @@
 package com.mason.doug.weather;
 
 public class ForecastWeather {
-	private int lowTemp,highTemp;
+	private float lowTemp,highTemp;
 	private String day,icon,condition;
 	
 	public void setDayOfWeek(String data) {
@@ -32,28 +32,28 @@ public class ForecastWeather {
 		this.condition = data;
 	}
 	
-	public void setTempLow(int data)
+	public void setTempLow(float data)
 	{
 		this.setLowTemp(data);
 	}
-	public void setTempHigh(int data)
+	public void setTempHigh(float data)
 	{
 		this.setHighTemp(data);
 	}
 
-	public int getLowTemp() {
+	public float getLowTemp() {
 		return lowTemp;
 	}
 
-	public void setLowTemp(int lowTemp) {
+	public void setLowTemp(float lowTemp) {
 		this.lowTemp = lowTemp;
 	}
 
-	public int getHighTemp() {
+	public float getHighTemp() {
 		return highTemp;
 	}
 
-	public void setHighTemp(int highTemp) {
+	public void setHighTemp(float highTemp) {
 		this.highTemp = highTemp;
 	}
 

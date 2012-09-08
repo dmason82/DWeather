@@ -15,7 +15,7 @@ package com.mason.doug.weather;
 
 public class WeatherCurrentCondition {
 	private String day,iconPath,humidity,condition,wind,city;
-	private Integer temp;
+	private float temp;
 	public void setDayOfWeek(String data) {
 		// TODO Auto-generated method stub
 		day = data;
@@ -30,7 +30,7 @@ public class WeatherCurrentCondition {
 		// TODO Auto-generated method stub
 		condition = data;
 	}
-	public void setTemp(int data)
+	public void setTemp(float data)
 	{
 		temp = data;
 	}
@@ -60,7 +60,7 @@ public class WeatherCurrentCondition {
 	public String getHumidity(){
 		return humidity;
 	}
-	public Integer getTemp()
+	public float getTemp()
 	{
 		return temp;
 	}

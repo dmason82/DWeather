@@ -52,7 +52,7 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
     private URL url;
     private String city;
     private CheckBox inC;
-    private TextView currentTemp,currentWind,currentDay,currentHumidity,currentCondition,currentLabel,todayDay,todayHigh,todayLow,todayCondition,cityLabel,
+    private TextView currentTemp,currentWind,currentDay,currentHumidity,currentCondition,todayDay,todayHigh,todayLow,todayCondition,cityLabel,
     tomorrowDay,tomorrowHigh,tomorrowLow,tomorrowCondition,threeDayDay,threeDayHigh,threeDayLow,threeDayCondition,fourDayDay,fourDayHigh,fourDayLow,fourDayCondition;
     private ImageView currentImage,todayImage,tomorrowImage,threeDayImage,fourDayImage;
     private WeatherCollection col;
@@ -120,20 +120,21 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
 		try
 		{
 			city = cityText.getText().toString();
-			String query = "http://www.google.com/ig/api?weather="+city;
-			String q = query.replace(" ", "%20");
-//			Log.v("Debug",q);
-			url = new URL(q);
-			
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser parser = factory.newSAXParser();
-			XMLReader reader = parser.getXMLReader();
-			WeatherParser process = new WeatherParser();
-			reader.setContentHandler(process);
-			reader.parse(new InputSource(url.openStream()));
-			this.col = process.getWeather();
+//			String query = "http://www.google.com/ig/api?weather="+city;
+//			String q = query.replace(" ", "%20");
+////			Log.v("Debug",q);
+//			url = new URL(q);
+//			
+//			SAXParserFactory factory = SAXParserFactory.newInstance();
+//			SAXParser parser = factory.newSAXParser();
+//			XMLReader reader = parser.getXMLReader();
+//			WeatherParser process = new WeatherParser();
+//			reader.setContentHandler(process);
+//			reader.parse(new InputSource(url.openStream()));
+////			this.col = process.getWeather();
+//			updateDisplay();
+			col = WUEngine.getWeather(city, this);
 			updateDisplay();
-			
 			//Current
 			
 		}
@@ -146,79 +147,79 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
 	private void updateDisplay()
 	{
 		if(!(inC.isChecked())){
-		currentTemp.setText(col.getCurrentConditions().getTemp().toString()+"¡F");
+		currentTemp.setText(Float.toString(col.getCurrentConditions().getTemp())+"¡F");
 		currentDay.setText(col.getCurrentConditions().getDay());
 		currentWind.setText(col.getCurrentConditions().getWind());
-		currentHumidity.setText(col.getCurrentConditions().getHumidity());
+		currentHumidity.setText("Current humidity: "+col.getCurrentConditions().getHumidity());
 		currentCondition.setText(col.getCurrentConditions().getCondition());
 		cityLabel.setText("Weather for "+col.getCurrentConditions().getCity());
-		this.setImageForURL(currentImage,"http://www.google.com"+col.getCurrentConditions().getIconPath());
-		
-		//Today Forecast
+		this.setImageForURL(currentImage, col.getCurrentConditions().getIconPath());
+//		
+//		//Today Forecast
 		todayDay.setText(col.getForecastCondtions().get(0).getDay());
-		todayLow.setText("Low: "+ col.getForecastCondtions().get(0).getLowTemp()+"¡F");
-		todayHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(0).getHighTemp())+"¡F");
+		todayLow.setText("Low: "+ Float.toString(col.getForecastCondtions().get(0).getLowTemp())+"¡F");
+		todayHigh.setText("High: "+Float.toString(col.getForecastCondtions().get(0).getHighTemp())+"¡F");
 		todayCondition.setText(col.getForecastCondtions().get(0).getCondition());
-		this.setImageForURL(todayImage,"http://www.google.com"+col.getForecastCondtions().get(0).getIcon());
-		
-		//Tomorrow Forecast
+		this.setImageForURL(todayImage,col.getForecastCondtions().get(0).getIcon());
+//		
+//		//Tomorrow Forecast
 		tomorrowDay.setText(col.getForecastCondtions().get(1).getDay());
-		tomorrowLow.setText("Low: "+ col.getForecastCondtions().get(1).getLowTemp()+"¡F");
-		tomorrowHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(1).getHighTemp())+"¡F");
+		tomorrowLow.setText("Low: "+ Float.toString(col.getForecastCondtions().get(1).getLowTemp())+"¡F");
+		tomorrowHigh.setText("High: "+Float.toString(col.getForecastCondtions().get(1).getHighTemp())+"¡F");
 		tomorrowCondition.setText(col.getForecastCondtions().get(1).getCondition());
-		this.setImageForURL(tomorrowImage,"http://www.google.com"+col.getForecastCondtions().get(1).getIcon());
-		
-		//Three Day Forecast
+		this.setImageForURL(tomorrowImage,col.getForecastCondtions().get(1).getIcon());
+//		
+//		//Three Day Forecast
 		threeDayDay.setText(col.getForecastCondtions().get(2).getDay());
-		threeDayLow.setText("Low: "+ col.getForecastCondtions().get(2).getLowTemp()+"¡F");
-		threeDayHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(2).getHighTemp())+"¡F");
+		threeDayLow.setText("Low: "+ Float.toString(col.getForecastCondtions().get(2).getLowTemp())+"¡F");
+		threeDayHigh.setText("High: "+Float.toString(col.getForecastCondtions().get(2).getHighTemp())+"¡F");
 		threeDayCondition.setText(col.getForecastCondtions().get(2).getCondition());
-		this.setImageForURL(threeDayImage,"http://www.google.com"+col.getForecastCondtions().get(2).getIcon());
-		
-		//Four Day Forecast
+		this.setImageForURL(threeDayImage,col.getForecastCondtions().get(2).getIcon());
+//		
+//		//Four Day Forecast
 		fourDayDay.setText(col.getForecastCondtions().get(3).getDay());
 		fourDayLow.setText("Low: "+ col.getForecastCondtions().get(3).getLowTemp()+"¡F");
-		fourDayHigh.setText("High: "+Integer.toString(col.getForecastCondtions().get(3).getHighTemp())+"¡F");
+		fourDayHigh.setText("High: "+Float.toString(col.getForecastCondtions().get(3).getHighTemp())+"¡F");
 		fourDayCondition.setText(col.getForecastCondtions().get(3).getCondition());
-		this.setImageForURL(fourDayImage,"http://www.google.com"+col.getForecastCondtions().get(3).getIcon());
+		this.setImageForURL(fourDayImage,col.getForecastCondtions().get(3).getIcon());
 		}
 		else
 		{
-			currentTemp.setText(Integer.toString(Utilities.fToC(col.getCurrentConditions().getTemp()))+"¡C");
+			currentTemp.setText(Float.toString(Utilities.fToC(col.getCurrentConditions().getTemp()))+"¡C");
 			currentDay.setText(col.getCurrentConditions().getDay());
 			currentWind.setText(col.getCurrentConditions().getWind());
-			currentHumidity.setText(col.getCurrentConditions().getHumidity());
+			currentHumidity.setText("Current humidity: "+col.getCurrentConditions().getHumidity());
 			currentCondition.setText(col.getCurrentConditions().getCondition());
 			cityLabel.setText("Weather for "+col.getCurrentConditions().getCity());
-			this.setImageForURL(currentImage,"http://www.google.com"+col.getCurrentConditions().getIconPath());
+			this.setImageForURL(currentImage,col.getCurrentConditions().getIconPath());
 			
-			//Today Forecast
+//			//Today Forecast
 			todayDay.setText(col.getForecastCondtions().get(0).getDay());
-			todayLow.setText("Low: "+ Integer.toString(Utilities.fToC(col.getForecastCondtions().get(0).getLowTemp()))+"¡C");
-			todayHigh.setText("High: "+Integer.toString(Utilities.fToC(col.getForecastCondtions().get(0).getHighTemp()))+"¡C");
+			todayLow.setText("Low: "+ Float.toString(Utilities.fToC(col.getForecastCondtions().get(0).getLowTemp()))+"¡C");
+			todayHigh.setText("High: "+Float.toString(Utilities.fToC(col.getForecastCondtions().get(0).getHighTemp()))+"¡C");
 			todayCondition.setText(col.getForecastCondtions().get(0).getCondition());
-			this.setImageForURL(todayImage,"http://www.google.com"+col.getForecastCondtions().get(0).getIcon());
-			
-			//Tomorrow Forecast
+			this.setImageForURL(todayImage,col.getForecastCondtions().get(0).getIcon());
+//			
+//			//Tomorrow Forecast
 			tomorrowDay.setText(col.getForecastCondtions().get(1).getDay());
-			tomorrowLow.setText("Low: "+ Integer.toString(Utilities.fToC(col.getForecastCondtions().get(1).getLowTemp()))+"¡C");
-			tomorrowHigh.setText("High: "+Integer.toString(Utilities.fToC(col.getForecastCondtions().get(1).getHighTemp()))+"¡C");
+			tomorrowLow.setText("Low: "+ Float.toString(Utilities.fToC(col.getForecastCondtions().get(1).getLowTemp()))+"¡C");
+			tomorrowHigh.setText("High: "+Float.toString(Utilities.fToC(col.getForecastCondtions().get(1).getHighTemp()))+"¡C");
 			tomorrowCondition.setText(col.getForecastCondtions().get(1).getCondition());
-			this.setImageForURL(tomorrowImage,"http://www.google.com"+col.getForecastCondtions().get(1).getIcon());
-			
-			//Three Day Forecast
+			this.setImageForURL(tomorrowImage,col.getForecastCondtions().get(1).getIcon());
+//			
+//			//Three Day Forecast
 			threeDayDay.setText(col.getForecastCondtions().get(2).getDay());
-			threeDayLow.setText("Low: "+ Integer.toString(Utilities.fToC(col.getForecastCondtions().get(2).getLowTemp()))+"¡C");
-			threeDayHigh.setText("High: "+Integer.toString(Utilities.fToC(col.getForecastCondtions().get(2).getHighTemp()))+"¡C");
+			threeDayLow.setText("Low: "+ Float.toString(Utilities.fToC(col.getForecastCondtions().get(2).getLowTemp()))+"¡C");
+			threeDayHigh.setText("High: "+Float.toString(Utilities.fToC(col.getForecastCondtions().get(2).getHighTemp()))+"¡C");
 			threeDayCondition.setText(col.getForecastCondtions().get(2).getCondition());
-			this.setImageForURL(threeDayImage,"http://www.google.com"+col.getForecastCondtions().get(2).getIcon());
-			
-			//Four Day Forecast
+			this.setImageForURL(threeDayImage,col.getForecastCondtions().get(2).getIcon());
+//			
+//			//Four Day Forecast
 			fourDayDay.setText(col.getForecastCondtions().get(3).getDay());
-			fourDayLow.setText("Low: "+ Integer.toString(Utilities.fToC(col.getForecastCondtions().get(3).getLowTemp()))+"¡C");
-			fourDayHigh.setText("High: "+Integer.toString(Utilities.fToC(col.getForecastCondtions().get(3).getLowTemp()))+"¡C");
+			fourDayLow.setText("Low: "+ Float.toString(Utilities.fToC(col.getForecastCondtions().get(3).getLowTemp()))+"¡C");
+			fourDayHigh.setText("High: "+Float.toString(Utilities.fToC(col.getForecastCondtions().get(3).getLowTemp()))+"¡C");
 			fourDayCondition.setText(col.getForecastCondtions().get(3).getCondition());
-			this.setImageForURL(fourDayImage,"http://www.google.com"+col.getForecastCondtions().get(3).getIcon());
+			this.setImageForURL(fourDayImage,col.getForecastCondtions().get(3).getIcon());
 		}
 	}
 	private void setImageForURL(ImageView image, String iconPath) {
