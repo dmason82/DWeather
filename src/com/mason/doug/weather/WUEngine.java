@@ -24,15 +24,22 @@ import android.util.Log;
 
 public class WUEngine {
 private static final String API_KEY = "26cbe5d65c74086f";
-
-public static WeatherCollection getWeather(String location,Context context)
+public boolean isAutoComplete = false;
+public  Object getWeather(String location,Context context)
 {
 	WeatherCollection weatherCollectionToReturn = new WeatherCollection();
 	ArrayList<ForecastWeather> forecastArrayList = new ArrayList<ForecastWeather>();
 	String requestURL = "http://api.wunderground.com/api/"+API_KEY+"/conditions/q/"+location.replace(" ", "%20")+".json";
 	String forecastURL = "http://api.wunderground.com/api/"+API_KEY+"/forecast/q/"+location.replace(" ", "%20")+".json";
 	try{
-	JSONObject object = getJSONFromURL(requestURL,context);
+	JSONObject object = getJSONFromURL(requestURL,context).getJSONObject("response");
+	Log.v("Object",object.toString());
+	JSONArray autoComplete = object.getJSONArray("results");
+	if(autoComplete.length() > 0){
+		Log.v("autoComplete",autoComplete.toString());
+		this.isAutoComplete = true;
+		return autoComplete;
+		}
 	JSONObject currentObject = object.getJSONObject("current_observation");
 	JSONObject currentLocation = currentObject.getJSONObject("display_location");
 	JSONObject forecastRequest = getJSONFromURL(forecastURL,context);
