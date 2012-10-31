@@ -14,11 +14,11 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 
@@ -32,19 +32,21 @@ public  Object getWeather(String location,Context context)
 	String requestURL = "http://api.wunderground.com/api/"+API_KEY+"/conditions/q/"+location.replace(" ", "%20")+".json";
 	String forecastURL = "http://api.wunderground.com/api/"+API_KEY+"/forecast/q/"+location.replace(" ", "%20")+".json";
 	try{
-	JSONObject object = getJSONFromURL(requestURL,context).getJSONObject("response");
-	Log.v("Object",object.toString());
-	JSONArray autoComplete = object.getJSONArray("results");
-	if(autoComplete.length() > 0){
-		Log.v("autoComplete",autoComplete.toString());
+	JSONObject object = getJSONFromURL(requestURL,context);
+	JSONObject response = object.getJSONObject("response");
+	try{
+		JSONArray autoComplete = response.getJSONArray("results");
 		this.isAutoComplete = true;
 		return autoComplete;
-		}
+	}
+	catch(JSONException e){
+		
+	}
+
 	JSONObject currentObject = object.getJSONObject("current_observation");
 	JSONObject currentLocation = currentObject.getJSONObject("display_location");
 	JSONObject forecastRequest = getJSONFromURL(forecastURL,context);
 	JSONObject forecastObject = forecastRequest.getJSONObject("forecast");
-	JSONArray forecastArray = forecastObject.getJSONObject("txt_forecast").getJSONArray("forecastday");
 	JSONArray simpleForecastArray = forecastObject.getJSONObject("simpleforecast").getJSONArray("forecastday");
 	if(simpleForecastArray.length() == 0)
 	{
@@ -53,9 +55,8 @@ public  Object getWeather(String location,Context context)
 		weatherAlert.show();
 	}
 	else{
-//		Log.v("Current Observation",currentObject.toString());
-//		Log.v("current location",currentLocation.getString("full"));
-//		Log.v("Current Conditions",currentConditions.toString());
+		Log.v("Current Observation",currentObject.toString());
+		Log.v("current location",currentLocation.getString("full"));
 		WeatherCurrentCondition currentConditions = new WeatherCurrentCondition();
 		String currentDate = currentObject.getString("observation_time_rfc822");
 		currentConditions.setDayOfWeek(currentDate.substring(0, currentDate.indexOf(",")));
@@ -133,13 +134,6 @@ private static JSONObject getJSONFromURL(String requestURL,Context context)
 	catch(Exception e)
 	{
 		e.printStackTrace();
-	}
-	try{
-//	Log.v("JSON Stuff",theObjectToReturn.toString());
-	}
-	catch(Exception e)
-	{
-		Log.v("Error parsing JSON",e.toString());
 	}
 	return theObjectToReturn;
 }
