@@ -125,15 +125,15 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
 			city = cityText.getText().toString();
 			col = engine.getWeather(city, this);
 			if(engine.isAutoComplete){
-				Log.v("It is autocomplete",col.toString());
 				JSONArray cities = (JSONArray)col;
 				Log.v("Test",cities.get(0).toString());
+				autoComplete = new ArrayList<String>();
 				for(int i = 0; i < ((JSONArray)col).length();i++){
 					JSONObject object = (JSONObject) cities.get(i);
 					autoComplete.add(object.get("city").toString()+" "+object.get("state").toString());
 				}
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setTitle("Select the city you meant.");
+				builder.setTitle("Which city did you want the weather for?");
 				CharSequence[] chars = autoComplete.toArray(new CharSequence[autoComplete.size()]);
 				builder.setItems(chars,new DialogInterface.OnClickListener() {
 				    public void onClick(DialogInterface dialog, int item) {
