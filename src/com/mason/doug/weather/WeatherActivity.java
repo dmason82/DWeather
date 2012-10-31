@@ -19,14 +19,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import org.json.JSONObject;
 import org.json.JSONArray;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -54,7 +48,6 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
 
     private EditText cityText;
     private Button submit;
-    private URL url;
     private String city;
     ArrayList<String> autoComplete;
     private CheckBox inC;
@@ -117,7 +110,7 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
     }
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		// Fairly standard single-button onClick listener.
 		switch(v.getId())
 		{
 		case R.id.goButton:
@@ -125,23 +118,11 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
 		}
 	}
 	private void fetchWeather() {
-		// TODO Auto-generated method stub
+		// Fetches the weather via our WeatherUnderground engine, then it will retreive the results
+		// for user consumption.
 		try
 		{
 			city = cityText.getText().toString();
-//			String query = "http://www.google.com/ig/api?weather="+city;
-//			String q = query.replace(" ", "%20");
-////			Log.v("Debug",q);
-//			url = new URL(q);
-//			
-//			SAXParserFactory factory = SAXParserFactory.newInstance();
-//			SAXParser parser = factory.newSAXParser();
-//			XMLReader reader = parser.getXMLReader();
-//			WeatherParser process = new WeatherParser();
-//			reader.setContentHandler(process);
-//			reader.parse(new InputSource(url.openStream()));
-////			this.col = process.getWeather();
-//			updateDisplay();
 			col = engine.getWeather(city, this);
 			if(engine.isAutoComplete){
 				Log.v("It is autocomplete",col.toString());
