@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -47,6 +48,9 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
     /** Called when the activity is first created. */
 
     private EditText cityText;
+    final String PREFS_FILE = "DWeatherPreferences";
+    final String WEATHER_PREF = "WEATHER_PREF";
+    SharedPreferences preference;
     private Button submit;
     private String city;
     ArrayList<String> autoComplete;
@@ -66,9 +70,18 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
         cityText = (EditText)findViewById(R.id.cityText);
         inC = (CheckBox)findViewById(R.id.inCCheck);
         inC.setOnCheckedChangeListener(this);
+        preference = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
         cityLabel=(TextView)findViewById(R.id.cityWeatherLabel);
         cityText.setOnEditorActionListener(this);
-                
+        try{
+        	String cityToFetch = preference.getString(WEATHER_PREF, "default");
+        	if(!cityToFetch.equalsIgnoreCase("default")){
+        		cityText.setText(cityToFetch);
+        	}
+        }
+        catch(Exception e){
+        	
+        }
         //Current day
         currentTemp = (TextView)findViewById(R.id.currentDegreeText); 
         currentImage = (ImageView)findViewById(R.id.currentImage);
@@ -235,6 +248,11 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
 			fourDayCondition.setText(((WeatherCollection)col).getForecastCondtions().get(3).getCondition());
 			this.setImageForURL(fourDayImage,((WeatherCollection)col).getForecastCondtions().get(3).getIcon());
 		}
+		
+		//Save city to shared preferences
+	    SharedPreferences.Editor edit = preference.edit();
+	    edit.putString(WEATHER_PREF,cityText.getText().toString() );
+	    edit.commit();
 	}
 	private void setImageForURL(ImageView image, String iconPath) {
 		// TODO Auto-generated method stub
