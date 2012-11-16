@@ -25,12 +25,16 @@ import org.json.JSONArray;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -292,4 +296,25 @@ public class WeatherActivity extends Activity implements OnClickListener,OnEdito
 		// TODO Auto-generated method stub
 		updateDisplay();
 	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu){
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i = new Intent();
+		switch(item.getItemId()){
+		case R.id.about:
+			i.setClass(getBaseContext(),AboutActivity.class);
+			startActivity(i);
+			break;
+		}
+		
+		
+		return false;
+	}
+	
+	
 }

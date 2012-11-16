@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">DWeather</string>
     <string name="defaultCity">Seattle WA</string>
     <string name="go">Go</string>
@@ -7,5 +8,8 @@
     <string name="current">Currently</string>
     <string name="dayText">day</string>
     <string name="inC">in °C</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_about">About</string>
 
 </resources>
