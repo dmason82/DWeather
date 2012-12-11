@@ -11,7 +11,7 @@
 
         <EditText
             android:id="@+id/cityText"
-            android:layout_width="200dp"
+            android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
@@ -32,7 +32,7 @@
         
         <CheckBox
             android:id="@+id/inCCheck"
-            android:layout_width="75dp"
+            android:layout_width="75sp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/cityText"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:layout_below="@+id/inputLayout"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5sp">
 
         <TextView
             android:id="@+id/currentForecastLabel"
@@ -64,15 +64,15 @@
             android:text="@string/current"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
            	<TextView
             android:id="@+id/currentConditionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/currentForecastLabel"
-            android:paddingLeft="15dp"
+            android:paddingLeft="15sp"
             android:text="Condition Text"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/currentImage"
@@ -85,24 +85,24 @@
             android:id="@+id/currentWindText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginTop="5sp"
             android:layout_below="@+id/currentConditionText"
             android:layout_toRightOf="@+id/currentImage"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/wind"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
         
          <TextView
              android:id="@+id/currentHumidityText"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_below="@+id/currentWindText"
-             android:layout_marginLeft="12dp"
+             android:layout_marginLeft="12sp"
              android:textAppearance="?android:attr/textAppearanceMedium"
              android:layout_toRightOf="@+id/currentImage"
              android:text="Humidity"
-             android:textSize="12dp" />
+             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/currentDegreeText"
@@ -111,7 +111,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="currentDegreeText"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
 
         <TextView
@@ -121,7 +121,7 @@
             android:layout_alignBottom="@+id/currentImage"
             android:layout_alignParentRight="true"
             android:text="@string/dayText"
-            android:textSize="14dp"
+            android:textSize="14sp"
              />
 
     </RelativeLayout>
@@ -131,7 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/currentForecastLayout"
-        android:layout_marginTop="5dp" >
+        android:layout_marginTop="5sp" >
 
         <TextView
             android:id="@+id/todayForecastLabel"
@@ -140,7 +140,7 @@
             android:text="Day of Week"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/todayImage"
@@ -154,11 +154,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="24sp"
             android:layout_toRightOf="@+id/todayImage"
             android:text="Current Condition"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/todayHighText"
@@ -176,7 +176,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/todayHighText"
-            android:paddingTop="5dp"
+            android:paddingTop="5sp"
             android:text="TextView"
             android:textColor="@color/lowColor" />
 
@@ -186,7 +186,7 @@
         android:id="@+id/tomorrowForecastLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="5sp"
         android:layout_below="@+id/todayForecastLayout" >
 
           <TextView
@@ -196,7 +196,7 @@
             android:text="Day of Week"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/tomorrowImage"
@@ -210,11 +210,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="24sp"
             android:layout_toRightOf="@+id/tomorrowImage"
             android:text="Current Condition"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tomorrowHighText"
@@ -232,7 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tomorrowHighText"
-            android:paddingTop="5dp"
+            android:paddingTop="5sp"
             android:text="TextView"
             android:textColor="@color/lowColor" />
 
@@ -242,7 +242,7 @@
         android:id="@+id/threeDayForecastLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="5sp"
         android:layout_below="@+id/tomorrowForecastLayout" >
 
              <TextView
@@ -252,7 +252,7 @@
             android:text="Day of Week"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/threeDayImage"
@@ -266,11 +266,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="24sp"
             android:layout_toRightOf="@+id/threeDayImage"
             android:text="Current Condition"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/threeDayHighText"
@@ -288,7 +288,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/threeDayHighText"
-            android:paddingTop="5dp"
+            android:paddingTop="5sp"
             android:text="TextView"
             android:textColor="@color/lowColor" />
         
@@ -298,7 +298,7 @@
         android:id="@+id/fourDayForecastLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="5sp"
         android:layout_below="@+id/threeDayForecastLayout" >
 
               <TextView
@@ -308,7 +308,7 @@
                   android:text="Day of Week"
                   android:textStyle="bold"
             	  android:textAppearance="?android:attr/textAppearanceMedium"
-                  android:textSize="14dp" />
+                  android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/fourDayImage"
@@ -322,11 +322,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="24sp"
             android:layout_toRightOf="@+id/fourDayImage"
             android:text="Current Condition"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/fourDayHighText"
@@ -344,9 +344,33 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/fourDayHighText"
-            android:paddingTop="5dp"
+            android:paddingTop="5sp"
             android:text="TextView"
             android:textColor="@color/lowColor" />
         
     </RelativeLayout>
+    <RelativeLayout
+        android:name="WeatherLogonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5sp"
+        >
+        <TextView
+        android:id="@+id/weatherDataLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/wundergroundImage"
+        android:text="@string/weatherLabelText" />
+        <ImageView
+        android:id="@+id/wundergroundImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/WUndergroundDesc"
+        android:src="@drawable/wunderground_logo"
+        android:onClick="goToWUI" />
+        </RelativeLayout>
 </RelativeLayout>
