@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.widget.TextView;
+import com.mason.doug.weather2.R;
 public class AboutActivity extends Activity {
 @Override
 public void onCreate(Bundle b){

@@ -70,6 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/currentForecastLabel"
+            android:layout_alignBaseline="@+id/currentForecastLabel"
+            android:textStyle="italic"
             android:paddingLeft="15sp"
             android:text="Condition Text"
             android:textSize="12sp" />
@@ -349,28 +351,30 @@
             android:textColor="@color/lowColor" />
         
     </RelativeLayout>
+
     <RelativeLayout
         android:name="WeatherLogonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5sp"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+
         <TextView
-        android:id="@+id/weatherDataLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/wundergroundImage"
-        android:text="@string/weatherLabelText" />
+            android:id="@+id/weatherDataLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/wundergroundImage"
+            android:text="@string/weatherLabelText" />
+
         <ImageView
-        android:id="@+id/wundergroundImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/WUndergroundDesc"
-        android:src="@drawable/wunderground_logo"
-        android:onClick="goToWUI" />
-        </RelativeLayout>
+            android:id="@+id/wundergroundImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/WUndergroundDesc"
+            android:onClick="goToWUI"
+            android:src="@drawable/wunderground_logo" />
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
+import com.mason.doug.weather2.R;
 public class WeatherParser extends DefaultHandler {
 	private WeatherCollection myWeather = null;
 	private boolean inForecastInfo = false;

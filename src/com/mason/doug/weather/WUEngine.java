@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
+import com.mason.doug.weather2.R;
 
 
 public class WUEngine {
@@ -57,10 +58,12 @@ public  Object getWeather(String location,Context context)
 	else{
 		Log.v("Current Observation",currentObject.toString());
 		Log.v("current location",currentLocation.getString("full"));
+		
 		WeatherCurrentCondition currentConditions = new WeatherCurrentCondition();
 		String currentDate = currentObject.getString("observation_time_rfc822");
 		currentConditions.setDayOfWeek(currentDate.substring(0, currentDate.indexOf(",")));
 		currentConditions.setTemp(Float.parseFloat(currentObject.getString("temp_f")));
+		currentConditions.setCondition(currentObject.getString("weather"));
 		currentConditions.setIconPath(currentObject.getString("icon_url"));
 		currentConditions.setCity(currentLocation.getString("full"));
 		currentConditions.setHumidity(currentObject.getString("relative_humidity"));

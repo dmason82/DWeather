@@ -13,6 +13,8 @@
 
 package com.mason.doug.weather;
 
+import com.mason.doug.weather2.R;
+
 public class Utilities {
 	static float fToC(float temp)
 	{

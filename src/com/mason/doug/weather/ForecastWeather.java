@@ -13,6 +13,8 @@
 
 package com.mason.doug.weather;
 
+import com.mason.doug.weather2.R;
+
 public class ForecastWeather {
 	private float lowTemp,highTemp;
 	private String day,icon,condition;
