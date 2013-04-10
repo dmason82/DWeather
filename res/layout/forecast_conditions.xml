@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+     <TextView
+            android:id="@+id/todayForecastLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Day of Week"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/todayImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/todayForecastLabel"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/todayHighText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="TodayHighText"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/highColor" />
+
+        <TextView
+            android:id="@+id/todayLowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/todayHighText"
+            android:paddingTop="5sp"
+            android:text="TextView"
+            android:textColor="@color/lowColor" />
+
+        <TextView
+            android:id="@+id/todayConditionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/todayLowText"
+            android:layout_alignTop="@+id/todayImage"
+            android:layout_toRightOf="@+id/todayImage"
+            android:text="Current Condition"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="12sp" />
+
+</RelativeLayout>
