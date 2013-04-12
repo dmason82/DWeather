@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
      <TextView
-            android:id="@+id/todayForecastLabel"
+            android:id="@+id/forecastLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Day of Week"
@@ -12,14 +12,14 @@
             android:textSize="14sp" />
 
         <ImageView
-            android:id="@+id/todayImage"
+            android:id="@+id/forecastImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/todayForecastLabel"
+            android:layout_below="@+id/forecastLabel"
             android:src="@drawable/ic_launcher" />
 
         <TextView
-            android:id="@+id/todayHighText"
+            android:id="@+id/forecastHighText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -29,22 +29,22 @@
             android:textColor="@color/highColor" />
 
         <TextView
-            android:id="@+id/todayLowText"
+            android:id="@+id/forecastLowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/todayHighText"
+            android:layout_below="@+id/forecastHighText"
             android:paddingTop="5sp"
             android:text="TextView"
             android:textColor="@color/lowColor" />
 
         <TextView
-            android:id="@+id/todayConditionText"
+            android:id="@+id/forecastConditionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/todayLowText"
-            android:layout_alignTop="@+id/todayImage"
-            android:layout_toRightOf="@+id/todayImage"
+            android:layout_alignBaseline="@+id/forecastLowText"
+            android:layout_alignTop="@+id/forecastImage"
+            android:layout_toRightOf="@+id/forecastImage"
             android:text="Current Condition"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="12sp" />

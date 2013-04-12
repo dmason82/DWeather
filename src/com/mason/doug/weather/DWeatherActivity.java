@@ -35,13 +35,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView.OnEditorActionListener;
-
+import android.location.*;
 public class DWeatherActivity extends Activity implements  OnClickListener,OnEditorActionListener,OnCheckedChangeListener {
     private WUEngine engine;
     final String PREFS_FILE = "DWeatherPreferences";
     final String WEATHER_PREF = "WEATHER_PREF";
     private Object col;
     private String city;
+    LocationManager manager;
     private CurrentConditionsAdapter conditionsAdapter;
     private ForecastConditionsAdapter forecastAdapter;
     ArrayList<String> autoComplete;
@@ -83,7 +84,7 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     		currentWind.setText("Wind is: "+((WeatherCollection)col).getCurrentConditions().getWind());
     		currentHumidity.setText("Current humidity: "+((WeatherCollection)col).getCurrentConditions().getHumidity());
     		currentCondition.setText(((WeatherCollection)col).getCurrentConditions().getCondition());
-    		cityLabel.setText("Weather for "+((WeatherCollection)col).getCurrentConditions().getCity());
+
     		}
     		else
     		{
@@ -92,7 +93,6 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     			currentWind.setText("Wind is: "+((WeatherCollection)col).getCurrentConditions().getWind());
     			currentHumidity.setText("Current humidity: "+((WeatherCollection)col).getCurrentConditions().getHumidity());
     			currentCondition.setText(((WeatherCollection)col).getCurrentConditions().getCondition());
-    			cityLabel.setText("Weather for "+((WeatherCollection)col).getCurrentConditions().getCity());
     			
     		}
     		setImageForURL(im,((WeatherCollection)col).getCurrentConditions().getIconPath());
@@ -102,6 +102,7 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     	
     }
     private class ForecastConditionsAdapter extends ArrayAdapter<ForecastWeather>{
+    	
     	public ForecastConditionsAdapter(Context context, int resource,
     			int textViewResourceId, List<ForecastWeather> objects) {
     		super(context, resource, textViewResourceId, objects);
@@ -110,8 +111,26 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
 
     	@Override
     	public View getView(int position, View convertView, ViewGroup parent) {
-    		// TODO Auto-generated method stub
-    		return super.getView(position, convertView, parent);
+    		View row = convertView;
+    		ForecastWeather forecast = this.getItem(position);
+    		if(row == null){
+    			LayoutInflater inflater = getLayoutInflater();
+    			row = inflater.inflate(R.layout.forecast_conditions, parent, false);
+    			row.setTag("Forecast "+Integer.toString(position));
+    		}
+            TextView forecastDay = (TextView)row.findViewById(R.id.forecastLabel);
+            TextView forecastHigh = (TextView)row.findViewById(R.id.forecastHighText); 
+            TextView forecastLow = (TextView)row.findViewById(R.id.forecastLowText);
+            TextView forecastCondtion = (TextView)row.findViewById(R.id.forecastConditionText);
+            ImageView forecastImage = (ImageView)row.findViewById(R.id.forecastImage);
+    		
+            forecastDay.setText(forecast.getDay());
+            forecastHigh.setText(Float.toString(forecast.getHighTemp()));
+            forecastLow.setText(Float.toString(forecast.getLowTemp()));
+            forecastCondtion.setText(forecast.getCondition());
+            setImageForURL(forecastImage,forecast.getIcon());
+    		return row;
+    		
     	}
     }
 
@@ -137,6 +156,7 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
         cityLabel=(TextView)findViewById(R.id.cityWeatherLabel);
         cityText.setOnEditorActionListener(this);
         currentList = (ListView)findViewById(R.id.currentForecast);
+        forecastList= (ListView)findViewById(R.id.forecastCondtionsList);
         //    	public CurrentConditionsAdapter(Context context, int resource,int textViewResourceId, List<WeatherCurrentCondition> objects)
 
 	}
@@ -219,6 +239,12 @@ private void fetchWeather(){
 		}
 		else{
 			updateDisplay();
+			//Save city to shared preferences
+		    SharedPreferences.Editor edit = preference.edit();
+		    edit.putString(WEATHER_PREF,cityText.getText().toString() );
+		    edit.commit();
+			
+			
 		}
 
 		//Current
@@ -232,7 +258,7 @@ private void fetchWeather(){
 
 private void updateDisplay()
 {
-
+	cityLabel.setText("Weather for "+((WeatherCollection)col).getCurrentConditions().getCity());
 	if(this.conditionsAdapter==null){
 		ArrayList<WeatherCurrentCondition> current = new ArrayList<WeatherCurrentCondition>();
 		current.add(((WeatherCollection)col).getCurrentConditions());
@@ -242,8 +268,14 @@ private void updateDisplay()
 	else{
 		conditionsAdapter.notifyDataSetChanged();
 	}
-	
-	
+	if(this.forecastAdapter == null){
+		forecastAdapter = new ForecastConditionsAdapter(this,R.layout.forecast_conditions,android.R.layout.simple_list_item_1,((WeatherCollection)col).getForecastCondtions());
+        forecastList.setAdapter(forecastAdapter);
+	}
+	else {
+		forecastAdapter.notifyDataSetChanged();
+	}
+
 	
 }
 }
