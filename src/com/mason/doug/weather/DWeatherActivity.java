@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,21 +39,146 @@ import android.widget.TextView.OnEditorActionListener;
 import android.location.*;
 public class DWeatherActivity extends Activity implements  OnClickListener,OnEditorActionListener,OnCheckedChangeListener {
     private WUEngine engine;
-    final String PREFS_FILE = "DWeatherPreferences";
+    /**
+	 * @return the engine
+	 */
+	public WUEngine getEngine() {
+		return engine;
+	}
+
+
+	/**
+	 * @param engine the engine to set
+	 */
+	public void setEngine(WUEngine engine) {
+		this.engine = engine;
+	}
+
+	final String PREFS_FILE = "DWeatherPreferences";
     final String WEATHER_PREF = "WEATHER_PREF";
     private Object col;
-    private String city;
-    LocationManager manager;
+    /**
+	 * @return the col
+	 */
+	public Object getCol() {
+		return col;
+	}
+
+
+	/**
+	 * @param col the col to set
+	 */
+	public void setCol(Object col) {
+		this.col = col;
+	}
+
+	private String city;
+    /**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+
+	/**
+	 * @param city the city to set
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	LocationManager manager;
     private CurrentConditionsAdapter conditionsAdapter;
     private ForecastConditionsAdapter forecastAdapter;
     ArrayList<String> autoComplete;
-    Button submit;
+    /**
+	 * @return the autoComplete
+	 */
+	public ArrayList<String> getAutoComplete() {
+		return autoComplete;
+	}
+
+
+	/**
+	 * @param autoComplete the autoComplete to set
+	 */
+	public void setAutoComplete(ArrayList<String> autoComplete) {
+		this.autoComplete = autoComplete;
+	}
+
+	Button submit;
     EditText cityText;
     ListView currentList,forecastList;
     CheckBox inC,currentLocation;
     SharedPreferences preference;
     TextView cityLabel;
-    
+    class WeatherEngineAsyncTask extends AsyncTask<DWeatherActivity,Void,DWeatherActivity>{
+
+		@Override
+		protected DWeatherActivity doInBackground(DWeatherActivity... activity) {
+			// TODO Auto-generated method stub
+			DWeatherActivity dw = activity[0];
+			final WUEngine engine = dw.getEngine();
+			Object col = dw.getCol();
+			try
+			{
+				
+				city = cityText.getText().toString();
+				col = engine.getWeather(dw.getCity(),dw);
+				if(engine.isAutoComplete){
+					JSONArray cities = (JSONArray)col;
+					Log.v("Test",cities.get(0).toString());
+					autoComplete = new ArrayList<String>();
+					for(int i = 0; i < ((JSONArray)col).length();i++){
+						JSONObject object = (JSONObject) cities.get(i);
+						autoComplete.add(object.get("city").toString()+" "+object.get("state").toString());
+					}
+					AlertDialog.Builder builder = new AlertDialog.Builder(dw);
+					builder.setTitle("Which city did you want the weather for?");
+					CharSequence[] chars = autoComplete.toArray(new CharSequence[autoComplete.size()]);
+					builder.setItems(chars,new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int item) {
+					         cityText.setText(autoComplete.get(item)) ;
+					         engine.isAutoComplete = false;
+					        fetchWeather();
+					    }
+					});
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+				else{
+					updateDisplay();
+					//Save city to shared preferences
+				    SharedPreferences.Editor edit = preference.edit();
+				    edit.putString(WEATHER_PREF,cityText.getText().toString() );
+				    edit.commit();
+					
+					
+				}
+
+				//Current
+				
+			}
+			catch(Exception e)
+			{
+				Log.e("ERROR!","Weather query error",e);
+			}
+			dw.setCol(col);
+			return dw;
+		}
+
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(DWeatherActivity result) {
+			// TODO Auto-generated method stub
+			result.updateDisplay();
+		}
+		
+    	
+    }
     private class CurrentConditionsAdapter extends ArrayAdapter<WeatherCurrentCondition>{
 
     	public CurrentConditionsAdapter(Context context, int resource,
@@ -150,6 +276,14 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
         cityText = (EditText)findViewById(R.id.cityText);
         inC = (CheckBox)findViewById(R.id.inCCheck);
         inC.setOnCheckedChangeListener(this);
+        manager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        boolean hasGPS =  manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(!hasGPS){
+        	
+        }
+        else{
+        	
+        }
         currentLocation = (CheckBox)findViewById(R.id.locationCheckBox);
         currentLocation.setOnCheckedChangeListener(this);
         preference = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
@@ -205,55 +339,14 @@ public void onClick(View v) {
 	switch(v.getId())
 	{
 	case R.id.goButton:
-		this.fetchWeather();
+		new WeatherEngineAsyncTask().execute(this);
+		break;
 	}
 }
 
 
 private void fetchWeather(){
-	try
-	{
-		
-		city = cityText.getText().toString();
-		col = engine.getWeather(city, this);
-		if(engine.isAutoComplete){
-			JSONArray cities = (JSONArray)col;
-			Log.v("Test",cities.get(0).toString());
-			autoComplete = new ArrayList<String>();
-			for(int i = 0; i < ((JSONArray)col).length();i++){
-				JSONObject object = (JSONObject) cities.get(i);
-				autoComplete.add(object.get("city").toString()+" "+object.get("state").toString());
-			}
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Which city did you want the weather for?");
-			CharSequence[] chars = autoComplete.toArray(new CharSequence[autoComplete.size()]);
-			builder.setItems(chars,new DialogInterface.OnClickListener() {
-			    public void onClick(DialogInterface dialog, int item) {
-			         cityText.setText(autoComplete.get(item)) ;
-			         engine.isAutoComplete = false;
-			        fetchWeather();
-			    }
-			});
-			AlertDialog alert = builder.create();
-			alert.show();
-		}
-		else{
-			updateDisplay();
-			//Save city to shared preferences
-		    SharedPreferences.Editor edit = preference.edit();
-		    edit.putString(WEATHER_PREF,cityText.getText().toString() );
-		    edit.commit();
-			
-			
-		}
-
-		//Current
-		
-	}
-	catch(Exception e)
-	{
-		Log.e("ERROR!","Weather query error",e);
-	}
+	
 }
 
 private void updateDisplay()
