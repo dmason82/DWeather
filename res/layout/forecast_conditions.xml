@@ -45,6 +45,7 @@
             android:layout_alignBaseline="@+id/forecastLowText"
             android:layout_alignTop="@+id/forecastImage"
             android:layout_toRightOf="@+id/forecastImage"
+            android:layout_marginLeft="15sp"
             android:text="Current Condition"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="12sp" />

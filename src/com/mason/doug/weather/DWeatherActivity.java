@@ -251,8 +251,14 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
             ImageView forecastImage = (ImageView)row.findViewById(R.id.forecastImage);
     		
             forecastDay.setText(forecast.getDay());
-            forecastHigh.setText(Float.toString(forecast.getHighTemp()));
-            forecastLow.setText(Float.toString(forecast.getLowTemp()));
+            if(!inC.isChecked()){
+    		forecastLow.setText("Low: "+ String.format("%.2f",forecast.getLowTemp())+"¡F");
+    		forecastHigh.setText("High: "+String.format("%.2f",forecast.getHighTemp())+"¡F");
+            }
+            else{
+    			forecastLow.setText("Low: "+ String.format("%.2f",Utilities.fToC(forecast.getLowTemp())+"¡C"));
+    			forecastHigh.setText("High: "+String.format("%.2f",Utilities.fToC(forecast.getHighTemp())+"¡C"));
+            }
             forecastCondtion.setText(forecast.getCondition());
             setImageForURL(forecastImage,forecast.getIcon());
     		return row;

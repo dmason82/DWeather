@@ -12,7 +12,6 @@
 //limitations under the License.
 
 package com.mason.doug.weather;
-import com.mason.doug.weather2.R;
 import java.util.ArrayList;
 
 public class WeatherCollection {

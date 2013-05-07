@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
-import com.mason.doug.weather2.R;
 
 
 public class WUEngine {

@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" 
         android:orientation="vertical"
-        >
+        xmlns:tools="http://schemas.android.com/tools">
 
         <TextView
             android:id="@+id/currentForecastLabel"
@@ -51,10 +51,12 @@
              android:layout_height="wrap_content"
              android:layout_below="@+id/currentWindText"
              android:layout_marginLeft="12sp"
-             android:textAppearance="?android:attr/textAppearanceMedium"
              android:layout_toRightOf="@+id/currentImage"
+             android:layout_marginTop="10sp"
              android:text="Humidity"
-             android:textSize="12sp" />
+             android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textSize="12sp"
+             tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/currentDegreeText"

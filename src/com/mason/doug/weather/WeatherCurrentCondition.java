@@ -13,8 +13,6 @@
 
 package com.mason.doug.weather;
 
-import com.mason.doug.weather2.R;
-
 public class WeatherCurrentCondition {
 	private String day,iconPath,humidity,condition,wind,city;
 	private float temp;
