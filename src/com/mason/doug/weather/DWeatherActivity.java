@@ -153,7 +153,6 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
 					alert.show();
 				}
 				else{
-					updateDisplay();
 					//Save city to shared preferences
 				    SharedPreferences.Editor edit = preference.edit();
 				    edit.putString(WEATHER_PREF,cityText.getText().toString() );
@@ -351,12 +350,10 @@ public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	switch(buttonView.getId()){
 	case R.id.locationCheckBox:
 	if(isChecked){
-		this.cityText.setFocusable(false);
 		this.cityText.setEnabled(false);
 		this.setupGPS();
 	}
 	else{
-		this.cityText.setFocusable(true);
 		this.cityText.setEnabled(true);
 	}
 		break;
@@ -399,18 +396,20 @@ private void updateDisplay()
         currentList.setAdapter(conditionsAdapter);
 	}
 	else{
-		ArrayList<WeatherCurrentCondition> current = new ArrayList<WeatherCurrentCondition>();
 		conditionsAdapter.clear();
-		current.clear();
-		current.add(((WeatherCollection)col).getCurrentConditions());
-		conditionsAdapter.notifyDataSetChanged();
+		conditionsAdapter.insert(((WeatherCollection)col).getCurrentConditions(), 0);
+		((ArrayAdapter<WeatherCurrentCondition>)currentList.getAdapter()).notifyDataSetChanged();
 	}
 	if(this.forecastAdapter == null){
 		forecastAdapter = new ForecastConditionsAdapter(this,R.layout.forecast_conditions,android.R.layout.simple_list_item_1,((WeatherCollection)col).getForecastCondtions());
         forecastList.setAdapter(forecastAdapter);
 	}
 	else {
-		forecastAdapter.notifyDataSetChanged();
+		forecastAdapter.clear();
+		for(int i= 0; i <((WeatherCollection)col).getForecastCondtions().size();i++){
+			forecastAdapter.insert(((WeatherCollection)col).getForecastCondtions().get(i), i);
+		}
+		((ArrayAdapter<ForecastWeather>) currentList.getAdapter()).notifyDataSetChanged();
 	}
 
 	
