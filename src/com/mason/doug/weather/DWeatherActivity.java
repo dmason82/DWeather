@@ -1,6 +1,7 @@
 package com.mason.doug.weather;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -22,7 +23,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -40,7 +40,7 @@ import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView.OnEditorActionListener;
 import android.location.*;
-public class DWeatherActivity extends Activity implements  OnClickListener,OnEditorActionListener,OnCheckedChangeListener {
+public class DWeatherActivity extends Activity implements  OnClickListener,OnEditorActionListener,OnCheckedChangeListener,LocationListener {
     private WUEngine engine;
     /**
 	 * @return the engine
@@ -109,9 +109,10 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
 	public void setAutoComplete(ArrayList<String> autoComplete) {
 		this.autoComplete = autoComplete;
 	}
-
+	String provider;
 	Button submit;
     EditText cityText;
+    Geocoder geo;
     ListView currentList,forecastList;
     CheckBox inC,currentLocation;
     SharedPreferences preference;
@@ -406,7 +407,65 @@ private void setupGPS(){
     	alert.show();
     	}
     else{
-    	
+    	Criteria criteria = new Criteria();
+    	provider = manager.getBestProvider(criteria, false);
+    	Location loc = manager.getLastKnownLocation(provider);
+    	if(loc!=null){
+    		onLocationChanged(loc);
+    	}
+    	else{
+    		cityText.setText("Location data not available");
+    	}
+    	manager.requestLocationUpdates(provider, 400, 1, this);
     }
+}
+
+
+/* (non-Javadoc)
+ * @see android.app.Activity#onPause()
+ */
+@Override
+protected void onPause() {
+	// TODO Auto-generated method stub
+	super.onPause();
+	manager.removeUpdates(this);
+}
+
+
+@Override
+public void onLocationChanged(Location location) {
+	// TODO Auto-generated method stub
+	if(geo==null){
+		geo = new Geocoder(this);
+	}
+	try {
+		List<Address> locations = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+		this.cityText.setText(locations.get(0).getLocality()+", "+locations.get(0).getAdminArea());
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+}
+
+
+@Override
+public void onProviderDisabled(String provider) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+@Override
+public void onProviderEnabled(String provider) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+@Override
+public void onStatusChanged(String provider, int status, Bundle extras) {
+	// TODO Auto-generated method stub
+	
 }
 }
