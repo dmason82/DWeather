@@ -1,8 +1,9 @@
 package com.mason.doug.weather;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -183,6 +184,43 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
 		
     	
     }
+   
+    class BitmapWorkerTask extends AsyncTask<String,Void,Bitmap>{
+    	private final WeakReference<ImageView> imageViewReference;
+    	private String data = "";
+    	public BitmapWorkerTask(ImageView image){
+    		imageViewReference = new WeakReference<ImageView>(image);
+    	}
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			data = params[0];
+			URL toConnect;
+			try {
+				toConnect = new URL(data);
+				URLConnection connect = toConnect.openConnection();
+				connect.connect();
+				InputStream content = (InputStream)toConnect.getContent();
+				Bitmap map = BitmapFactory.decodeStream(content);
+				return map;
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		protected void onPostExecute(Bitmap bitmap){
+			if(imageViewReference !=null && bitmap !=null){
+				final ImageView imageView = imageViewReference.get();
+				if(imageView !=null){
+					imageView.setImageBitmap(bitmap);
+				}
+			}
+		}
+    	}
     private class CurrentConditionsAdapter extends ArrayAdapter<WeatherCurrentCondition>{
 
     	public CurrentConditionsAdapter(Context context, int resource,
@@ -225,7 +263,7 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     			currentCondition.setText(((WeatherCollection)col).getCurrentConditions().getCondition());
     			
     		}
-    		setImageForURL(im,((WeatherCollection)col).getCurrentConditions().getIconPath());
+    		new BitmapWorkerTask(im).execute(((WeatherCollection)col).getCurrentConditions().getIconPath());
     		return row;
     		
     	}
@@ -264,7 +302,7 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     			forecastHigh.setText("High: "+String.format("%.2f",Utilities.fToC(forecast.getHighTemp())+"¡C"));
             }
             forecastCondtion.setText(forecast.getCondition());
-            setImageForURL(forecastImage,forecast.getIcon());
+            new BitmapWorkerTask(forecastImage).execute(forecast.getIcon());
     		return row;
     		
     	}
@@ -305,27 +343,6 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
 		}
 	}
 
-private void setImageForURL(ImageView image, String iconPath) {
-	// TODO Auto-generated method stub
-	try
-	{
-	URL toConnect = new URL(iconPath);
-	URLConnection connect = toConnect.openConnection();
-	connect.connect();
-	InputStream in = connect.getInputStream();
-	BufferedInputStream bufferedStream = new BufferedInputStream(in);
-	Bitmap map = BitmapFactory.decodeStream(bufferedStream);
-	bufferedStream.close();
-	in.close();
-	image.setImageBitmap(map);
-	}
-	catch(Exception e)
-	{
-		Log.v("Exception!",e.toString());
-		image.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
-	}
-	
-}
 @Override
 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	// TODO Auto-generated method stub
