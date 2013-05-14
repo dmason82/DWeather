@@ -15,11 +15,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -283,13 +286,6 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
         inC = (CheckBox)findViewById(R.id.inCCheck);
         inC.setOnCheckedChangeListener(this);
         manager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        boolean hasGPS =  manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if(!hasGPS){
-        	
-        }
-        else{
-        	
-        }
         currentLocation = (CheckBox)findViewById(R.id.locationCheckBox);
         currentLocation.setOnCheckedChangeListener(this);
         preference = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
@@ -328,6 +324,15 @@ public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	// TODO Auto-generated method stub
 	switch(buttonView.getId()){
 	case R.id.locationCheckBox:
+	if(isChecked){
+		this.cityText.setFocusable(false);
+		this.cityText.setEnabled(false);
+		this.setupGPS();
+	}
+	else{
+		this.cityText.setFocusable(true);
+		this.cityText.setEnabled(true);
+	}
 		break;
 	case R.id.inCCheck:
 		break;
@@ -346,6 +351,7 @@ public void onClick(View v) {
 	{
 	case R.id.goButton:
 		new WeatherEngineAsyncTask().execute(this);
+		this.updateDisplay();
 		break;
 	}
 }
@@ -376,5 +382,31 @@ private void updateDisplay()
 	}
 
 	
+}
+private void setupGPS(){
+    boolean hasGPS =  manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    if(!hasGPS){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("GPS is not enabled, would you like to enable it?");
+    	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+		    	Intent preference = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		    	startActivity(preference);
+			}
+		});
+    	builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+    		@Override
+    		public void onClick(DialogInterface dialog, int which){
+    			
+    		}
+    		});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    	}
+    else{
+    	
+    }
 }
 }
