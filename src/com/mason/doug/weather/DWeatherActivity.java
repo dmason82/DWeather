@@ -298,8 +298,10 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     		forecastHigh.setText("High: "+String.format("%.2f",forecast.getHighTemp())+"¡F");
             }
             else{
-    			forecastLow.setText("Low: "+ String.format("%.2f",Utilities.fToC(forecast.getLowTemp())+"¡C"));
-    			forecastHigh.setText("High: "+String.format("%.2f",Utilities.fToC(forecast.getHighTemp())+"¡C"));
+            	float lowTemp = Utilities.fToC(forecast.getLowTemp());
+            	float highTemp = Utilities.fToC(forecast.getHighTemp());
+    			forecastLow.setText("Low: "+ String.format("%.2f",lowTemp)+"¡C");
+    			forecastHigh.setText("High: "+String.format("%.2f",highTemp)+"¡C");
             }
             forecastCondtion.setText(forecast.getCondition());
             new BitmapWorkerTask(forecastImage).execute(forecast.getIcon());
@@ -359,6 +361,9 @@ public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	}
 		break;
 	case R.id.inCCheck:
+		if(this.col!=null){
+		this.updateDisplay();
+		}
 		break;
 	}
 	
@@ -394,6 +399,10 @@ private void updateDisplay()
         currentList.setAdapter(conditionsAdapter);
 	}
 	else{
+		ArrayList<WeatherCurrentCondition> current = new ArrayList<WeatherCurrentCondition>();
+		conditionsAdapter.clear();
+		current.clear();
+		current.add(((WeatherCollection)col).getCurrentConditions());
 		conditionsAdapter.notifyDataSetChanged();
 	}
 	if(this.forecastAdapter == null){
