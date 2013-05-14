@@ -447,18 +447,11 @@ protected void onPause() {
 
 @Override
 public void onLocationChanged(Location location) {
+	Log.v("Location info: ",location.toString());
 	// TODO Auto-generated method stub
-	if(geo==null){
-		geo = new Geocoder(this);
-	}
-	try {
-		List<Address> locations = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 5);
-		Log.v("Stuff",locations.toString());
-		this.cityText.setText(locations.get(0).getLocality()+", "+locations.get(0).getAdminArea());
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	this.cityText.setText(location.getLatitude()+","+location.getLongitude());
+		//this.cityText.setText(locations.get(0).getLocality()+", "+locations.get(0).getAdminArea());
+		new WeatherEngineAsyncTask().execute(this);
 	
 }
 
