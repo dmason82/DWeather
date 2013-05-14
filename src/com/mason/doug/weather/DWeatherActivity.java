@@ -297,7 +297,13 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
         //    	public CurrentConditionsAdapter(Context context, int resource,int textViewResourceId, List<WeatherCurrentCondition> objects)
 
 	}
-
+	@Override
+	public void onResume(){
+		super.onResume();
+		if(preference.contains("GPS") || currentLocation.isChecked()){
+			this.setupGPS();
+		}
+	}
 
 private void setImageForURL(ImageView image, String iconPath) {
 	// TODO Auto-generated method stub
@@ -352,7 +358,6 @@ public void onClick(View v) {
 	{
 	case R.id.goButton:
 		new WeatherEngineAsyncTask().execute(this);
-		this.updateDisplay();
 		break;
 	}
 }
@@ -386,10 +391,11 @@ private void updateDisplay()
 }
 private void setupGPS(){
     boolean hasGPS =  manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    if(!hasGPS){
+    boolean hasNetwork = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    if(!hasGPS && !hasNetwork){
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage("GPS is not enabled, would you like to enable it?");
-    	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    	builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -397,7 +403,7 @@ private void setupGPS(){
 		    	startActivity(preference);
 			}
 		});
-    	builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+    	builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
     		@Override
     		public void onClick(DialogInterface dialog, int which){
     			
@@ -405,10 +411,17 @@ private void setupGPS(){
     		});
     	AlertDialog alert = builder.create();
     	alert.show();
+    	
     	}
     else{
-    	Criteria criteria = new Criteria();
-    	provider = manager.getBestProvider(criteria, false);
+    	if(hasNetwork){
+    		manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 400, 1, this);
+    		provider = LocationManager.NETWORK_PROVIDER;
+    	}else{
+    		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1, this);
+    		provider = LocationManager.GPS_PROVIDER;
+    	}
+
     	Location loc = manager.getLastKnownLocation(provider);
     	if(loc!=null){
     		onLocationChanged(loc);
@@ -416,7 +429,7 @@ private void setupGPS(){
     	else{
     		cityText.setText("Location data not available");
     	}
-    	manager.requestLocationUpdates(provider, 400, 1, this);
+    	
     }
 }
 
@@ -439,7 +452,8 @@ public void onLocationChanged(Location location) {
 		geo = new Geocoder(this);
 	}
 	try {
-		List<Address> locations = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+		List<Address> locations = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 5);
+		Log.v("Stuff",locations.toString());
 		this.cityText.setText(locations.get(0).getLocality()+", "+locations.get(0).getAdminArea());
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
