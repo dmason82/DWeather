@@ -30,6 +30,7 @@
             android:name="com.mason.doug.weather.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
+        <provider android:name="com.mason.doug.weather.WeatherProvider" android:authorities="@string/providerAuthority" android:exported="false"></provider>
         
     </application>
 

@@ -15,5 +15,6 @@
     <string name="weatherLabelString">Weather for city:</string>
     <string name="WUndergroundDesc">WUnderground logo</string>
     <string name="weatherLabelText">Weather data provided by:</string>
+    <string name="providerAuthority">com.mason.doug.weather.WeatherProvider</string>
 
 </resources>
