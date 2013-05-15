@@ -3,10 +3,15 @@ package com.mason.doug.weather;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 public class WeatherProvider extends ContentProvider {
-
+	private static final String AUTHORITY = "com.mason.doug.weather.WeatherProvider";
+	private static final String TAG = com.mason.doug.weather.WeatherProvider.class.getSimpleName();
+	
+	WeatherDBHelper mSQLHelper;
+	private SQLiteDatabase db;
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		// TODO Auto-generated method stub
