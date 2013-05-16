@@ -23,13 +23,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mason.doug.weather.WeatherActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name="com.mason.doug.weather.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
+        <activity android:name="com.mason.doug.weather.WeatherDetailActivity"/>
+
         <provider android:name="com.mason.doug.weather.WeatherProvider" android:authorities="@string/providerAuthority" android:exported="false"></provider>
         
     </application>

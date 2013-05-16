@@ -61,11 +61,30 @@
         android:id="@+id/currentForecast" 
         android:tag="currentConditionsList"
         android:layout_below="@+id/inputLayout"
-        />
+        android:headerDividersEnabled="true"
+        android:footerDividersEnabled="false"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:id="@+id/forecastCondtionsList"
         android:layout_below="@+id/currentForecast"
-        />
+        android:headerDividersEnabled="true"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wundergroundBanner"
+            android:src="@drawable/wunderground_logo"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Weather data provided by:"
+            android:id="@+id/textView"
+            android:layout_above="@+id/wundergroundBanner"
+            android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>
