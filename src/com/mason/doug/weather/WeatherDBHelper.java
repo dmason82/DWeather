@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class WeatherDBHelper extends SQLiteOpenHelper {
-
+	public static final String DB_NAME = "dweather";
+	public static final int DB_VERSION = 1;
 	public WeatherDBHelper(Context context, String name, CursorFactory factory,
 			int version) {
 		super(context, name, factory, version);
@@ -34,9 +35,30 @@ public class WeatherDBHelper extends SQLiteOpenHelper {
                 Weather.CurrentConditions.iconPath + " TEXT, " + 
                 Weather.CurrentConditions.condition + " TEXT, " +
                 Weather.CurrentConditions.wind + " TEXT, " +
+                Weather.CurrentConditions.temp + " FLOAT, " +
+                Weather.CurrentConditions.humidity + " TEXT, " + ");";
+        
+        /**
+         * 			Weather.ForecastConditions.id,
+			Weather.ForecastConditions.day,
+			Weather.ForecastConditions.icon,
+			Weather.ForecastConditions.condition,
+			Weather.ForecastConditions.lowTemp,
+			Weather.ForecastConditions.highTemp
+         */
+        String createTableForecast = 
+                "CREATE TABLE " + 
+                Weather.ForecastConditions.TABLE_NAME + " (" + 
+                Weather.ForecastConditions.id + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + 
+                Weather.ForecastConditions.day + " TEXT, " +
+                Weather.ForecastConditions.condition + " TEXT, " +        
+                Weather.ForecastConditions.icon + " TEXT, " + 
+                Weather.ForecastConditions.lowTemp + " FLOAT, " +
+                Weather.ForecastConditions.highTemp + " FLOAT, " +
                 Weather.CurrentConditions.temp + " TEXT, " +
                 Weather.CurrentConditions.humidity + " TEXT, " + ");";
         db.execSQL(createTableCurrent);
+        db.execSQL(createTableForecast);
 	}
 
 	@Override
