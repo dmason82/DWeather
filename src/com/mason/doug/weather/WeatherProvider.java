@@ -1,6 +1,7 @@
 package com.mason.doug.weather;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -28,7 +29,7 @@ public class WeatherProvider extends ContentProvider {
 			return db.delete(Weather.CurrentConditions.TABLE_NAME, null, null);
 		}
 		else if(mURIMatcher.match(uri) == FORECAST){
-			
+			return db.delete(Weather.ForecastConditions.TABLE_NAME,null,selectionArgs);
 		}
 		else if (mURIMatcher.match(uri) == FORECAST_ID){
 			
@@ -38,15 +39,35 @@ public class WeatherProvider extends ContentProvider {
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		// TODO Auto-generated method stub
-		db.insert(Weather.TABLE_NAME, null, values);
-		return null;
+        if (mURIMatcher.match(uri) != CURRENT&& (mURIMatcher.match(uri) != FORECAST)) {
+            throw new IllegalArgumentException("Unknow URI" + uri);
+        }
+		else{
+            SQLiteDatabase data = mSQLHelper.getWritableDatabase();
+            switch(mURIMatcher.match(uri)){
+                case CURRENT:
+                    long insertedcurrent = data.insert(Weather.CurrentConditions.TABLE_NAME,null,values);
+                    if(insertedcurrent > 0){
+                        Uri currentURI = ContentUris.withAppendedId(Weather.CURRENT_URI,insertedcurrent);
+                        return currentURI;
+                    }
+                    break;
+                case FORECAST:
+                    long insertedForecast = data.insert(Weather.ForecastConditions.TABLE_NAME,null,values);
+                    if(insertedForecast > 0){
+                        Uri forecastURI = ContentUris.withAppendedId(Weather.FORECAST_URI,insertedForecast);
+                        return forecastURI;
+                    }
+                    break;
+            }
+        }
+        return null;
 	}
 
 	@Override
@@ -58,7 +79,7 @@ public class WeatherProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
