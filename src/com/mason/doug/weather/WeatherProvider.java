@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 public class WeatherProvider extends ContentProvider {
-	private static final String AUTHORITY = "com.mason.doug.weather.WeatherProvider";
+	public static final String AUTHORITY = "com.mason.doug.weather.WeatherProvider";
 	private static final String TAG = com.mason.doug.weather.WeatherProvider.class.getSimpleName();
 	private static final int CURRENT = 1;
 	private static final int FORECAST = 2;

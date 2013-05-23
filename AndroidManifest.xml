@@ -28,6 +28,12 @@
             android:label="@string/title_activity_about" >
         </activity>
         <activity android:name="com.mason.doug.weather.WeatherDetailActivity"/>
+        <activity android:name="com.mason.doug.weather.WeatherActivity" android:label="DWeather">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <provider android:name="com.mason.doug.weather.WeatherProvider" android:authorities="@string/providerAuthority" android:exported="false"></provider>
         
