@@ -26,13 +26,13 @@ public class WeatherProvider extends ContentProvider {
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		// TODO Auto-generated method stub
 		if(mURIMatcher.match(uri) == CURRENT){
-			return db.delete(Weather.CurrentConditions.TABLE_NAME, null, null);
+			return db.delete(Weather.CurrentConditions.TABLE_NAME, null , null);
 		}
 		else if(mURIMatcher.match(uri) == FORECAST){
 			return db.delete(Weather.ForecastConditions.TABLE_NAME,null,selectionArgs);
 		}
 		else if (mURIMatcher.match(uri) == FORECAST_ID){
-			
+			return db.delete(Weather.ForecastConditions.TABLE_NAME,Weather.ForecastConditions.id+"="+uri.getQuery(),selectionArgs);
 		}
 		return 0;
 	}
@@ -55,6 +55,7 @@ public class WeatherProvider extends ContentProvider {
                     long insertedcurrent = data.insert(Weather.CurrentConditions.TABLE_NAME,null,values);
                     if(insertedcurrent > 0){
                         Uri currentURI = ContentUris.withAppendedId(Weather.CURRENT_URI,insertedcurrent);
+                        getContext().getContentResolver().notifyChange(uri, null);
                         return currentURI;
                     }
                     break;
@@ -62,6 +63,7 @@ public class WeatherProvider extends ContentProvider {
                     long insertedForecast = data.insert(Weather.ForecastConditions.TABLE_NAME,null,values);
                     if(insertedForecast > 0){
                         Uri forecastURI = ContentUris.withAppendedId(Weather.FORECAST_URI,insertedForecast);
+                        getContext().getContentResolver().notifyChange(uri, null);
                         return forecastURI;
                     }
                     break;
@@ -79,7 +81,17 @@ public class WeatherProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-
+        switch (mURIMatcher.match(uri)){
+            case CURRENT:
+                return db.query(Weather.CurrentConditions.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+                break;
+            case FORECAST:
+                return db.query(Weather.ForecastConditions.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+                break;
+            case FORECAST_ID:
+                return db.query(Weather.ForecastConditions.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+                break;
+        }
 		return null;
 	}
 
@@ -87,6 +99,14 @@ public class WeatherProvider extends ContentProvider {
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
 		// TODO Auto-generated method stub
+        switch (mURIMatcher.match(uri)){
+            case CURRENT:
+                break;
+            case FORECAST:
+                break;
+            case FORECAST_ID:
+                break;
+        }
 		return 0;
 	}
 }
