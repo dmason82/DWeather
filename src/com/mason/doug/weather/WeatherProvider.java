@@ -81,32 +81,38 @@ public class WeatherProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
+        Cursor value = null;
         switch (mURIMatcher.match(uri)){
+
             case CURRENT:
-                return db.query(Weather.CurrentConditions.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+                value= db.query(Weather.CurrentConditions.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
                 break;
             case FORECAST:
-                return db.query(Weather.ForecastConditions.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+                value= db.query(Weather.ForecastConditions.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
                 break;
             case FORECAST_ID:
-                return db.query(Weather.ForecastConditions.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+                value= db.query(Weather.ForecastConditions.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
                 break;
         }
-		return null;
+		return value;
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
 		// TODO Auto-generated method stub
+        int val=0;
         switch (mURIMatcher.match(uri)){
             case CURRENT:
-                break;
+                val = db.update(Weather.CurrentConditions.TABLE_NAME,values,selection,selectionArgs);
             case FORECAST:
+                val = db.update(Weather.ForecastConditions.TABLE_NAME,values,selection,selectionArgs);
                 break;
             case FORECAST_ID:
+                val = db.update(Weather.ForecastConditions.TABLE_NAME,values,selection,selectionArgs);
                 break;
         }
-		return 0;
+        getContext().getContentResolver().notifyChange(uri, null);
+		return val;
 	}
 }
