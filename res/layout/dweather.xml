@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+                xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 <fragment
         android:id="@+id/weatherInputFragment"
         class="com.mason.doug.weather.WeatherInputFragment"
         android:layout_width="match_parent"
-        android:layout_height="150sp"
-        />
+        android:layout_height="100sp"
+        tools:layout="@layout/weather_input"/>
 <fragment
         android:id="@+id/weatherCurrentFragment"
         class="com.mason.doug.weather.WeatherCurrentFragment"
+        android:layout_below="@+id/weatherInputFragment"
         android:layout_width="match_parent"
         android:layout_height="80sp"
-    />
+        tools:layout="@layout/current_conditions"
+        />
 <fragment
         android:id="@+id/weatherForecastFragment"
         class="com.mason.doug.weather.WeatherForecastFragment"
         android:layout_width="match_parent"
+        android:layout_below="@+id/weatherCurrentFragment"
         android:layout_height="300sp"
+        tools:layout="@layout/weather_forecast"
     />
 
 
