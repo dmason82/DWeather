@@ -1,5 +1,6 @@
 package com.mason.doug.weather;
 
+import android.content.CursorLoader;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.database.Cursor;
@@ -14,6 +15,8 @@ import com.mason.doug.weather2.R;
 public class WeatherActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private SimpleCursorAdapter adapter;
     private static final String CURRENT_TAG = "current";
+    private static final int CURRENT_NUM = 1;
+    private static final int FORECAST_NUM = 2;
     private static final String FORECAST_TAG = "forecast";
     private static final String INPUT_TAG = "input";
     public void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,16 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
+        CursorLoader loader = null;
+        switch (i){
+            case CURRENT_NUM:
+                loader = new CursorLoader(getBaseContext(),WeatherProvider.CURRENT_URL,Weather.CurrentConditions.PROJECTION,null,null,null);
+                break;
+            case FORECAST_NUM:
+                loader = new CursorLoader(getBaseContext(),WeatherProvider.FORECAST_URL,Weather.CurrentConditions.PROJECTION,null,null,null);
+                break;
+        }
+        return loader;
     }
 
     @Override

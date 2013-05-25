@@ -11,6 +11,10 @@ import android.net.Uri;
 public class WeatherProvider extends ContentProvider {
 	public static final String AUTHORITY = "com.mason.doug.weather.WeatherProvider";
 	private static final String TAG = com.mason.doug.weather.WeatherProvider.class.getSimpleName();
+    public static final String CURRENT_PATH = "current";
+    public static final String FORECAST_PATH = "forecast";
+    public static final Uri CURRENT_URL = Uri.parse("content://"+AUTHORITY+"/"+CURRENT_PATH);
+    public static final Uri FORECAST_URL = Uri.parse("content://"+AUTHORITY+"/"+FORECAST_PATH);
 	private static final int CURRENT = 1;
 	private static final int FORECAST = 2;
 	private static final int FORECAST_ID = 3;
