@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 import android.content.ContentValues;
-
+import java.util.ArrayList;
 /**
  * Created by dougmason on 5/25/13.
  */
@@ -33,6 +33,20 @@ public class WeatherFetchService extends IntentService {
             values.put(Weather.CurrentConditions.temp,current.getTemp());
             values.put(Weather.CurrentConditions.wind,current.getWind());
             getContentResolver().update(WeatherProvider.CURRENT_URL,values,Weather.CurrentConditions.id+"=1",null);
+            getContentResolver().notifyAll();
+            ArrayList<ForecastWeather> array = collection.getForecastCondtions();
+            for(int i = 1; i < array.size();i++){
+                ForecastWeather forecast = array.get(i-1);
+
+                ContentValues cv = new ContentValues();
+                cv.put(Weather.ForecastConditions.day,forecast.getDay());
+                cv.put(Weather.ForecastConditions.condition,forecast.getCondition());
+                cv.put(Weather.ForecastConditions.highTemp,forecast.getHighTemp());
+                cv.put(Weather.ForecastConditions.icon,forecast.getIcon());
+                cv.put(Weather.ForecastConditions.lowTemp,forecast.getLowTemp());
+                getContentResolver().update(WeatherProvider.FORECAST_URL,cv,Weather.ForecastConditions.id+"="+i,null);
+
+            }
             getContentResolver().notifyAll();
         }
     }
