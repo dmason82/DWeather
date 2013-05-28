@@ -15,6 +15,8 @@ import com.mason.doug.weather2.R;
 public class WeatherActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private SimpleCursorAdapter adapter;
     private static final String CURRENT_TAG = "current";
+    SimpleCursorAdapter mCurrentAdapter;
+    SimpleCursorAdapter mForecastAdapter;
     private static final int CURRENT_NUM = 1;
     private static final int FORECAST_NUM = 2;
     private static final String FORECAST_TAG = "forecast";
@@ -30,6 +32,7 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
         switch (i){
             case CURRENT_NUM:
                 loader = new CursorLoader(getBaseContext(),WeatherProvider.CURRENT_URL,Weather.CurrentConditions.PROJECTION,null,null,null);
+
                 break;
             case FORECAST_NUM:
                 loader = new CursorLoader(getBaseContext(),WeatherProvider.FORECAST_URL,Weather.CurrentConditions.PROJECTION,null,null,null);
@@ -40,7 +43,14 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-
+        switch (cursorLoader.getId()){
+            case CURRENT_NUM:
+                mCurrentAdapter.swapCursor(cursor);
+                break;
+            case FORECAST_NUM:
+                mForecastAdapter.swapCursor(cursor);
+                break;
+        }
     }
 
     @Override
