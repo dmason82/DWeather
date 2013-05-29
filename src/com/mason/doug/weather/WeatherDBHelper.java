@@ -36,7 +36,7 @@ public class WeatherDBHelper extends SQLiteOpenHelper {
                 Weather.CurrentConditions.condition + " TEXT, " +
                 Weather.CurrentConditions.wind + " TEXT, " +
                 Weather.CurrentConditions.temp + " FLOAT, " +
-                Weather.CurrentConditions.humidity + " TEXT, " + ");";
+                Weather.CurrentConditions.humidity + " TEXT " + ");";
         
         /**
          * 			Weather.ForecastConditions.id,
@@ -56,7 +56,7 @@ public class WeatherDBHelper extends SQLiteOpenHelper {
                 Weather.ForecastConditions.lowTemp + " FLOAT, " +
                 Weather.ForecastConditions.highTemp + " FLOAT, " +
                 Weather.CurrentConditions.temp + " TEXT, " +
-                Weather.CurrentConditions.humidity + " TEXT, " + ");";
+                Weather.CurrentConditions.humidity + " TEXT " + ");";
         db.execSQL(createTableCurrent);
         db.execSQL(createTableForecast);
 	}

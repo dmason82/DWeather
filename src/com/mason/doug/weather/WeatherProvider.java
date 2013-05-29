@@ -48,6 +48,7 @@ public class WeatherProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
+        db=mSQLHelper.getWritableDatabase();
 		// TODO Auto-generated method stub
         if (mURIMatcher.match(uri) != CURRENT&& (mURIMatcher.match(uri) != FORECAST)) {
             throw new IllegalArgumentException("Unknow URI" + uri);
@@ -79,7 +80,17 @@ public class WeatherProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		// TODO Auto-generated method stub
-		return false;
+		try{
+
+            mSQLHelper = new WeatherDBHelper(getContext(),"weather",null,1);
+            if(!mSQLHelper.equals(null)){
+            return true;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
 	}
 
 	@Override
@@ -106,6 +117,7 @@ public class WeatherProvider extends ContentProvider {
 			String[] selectionArgs) {
 		// TODO Auto-generated method stub
         int val=0;
+
         switch (mURIMatcher.match(uri)){
             case CURRENT:
                 val = db.update(Weather.CurrentConditions.TABLE_NAME,values,selection,selectionArgs);
@@ -117,6 +129,6 @@ public class WeatherProvider extends ContentProvider {
                 break;
         }
         getContext().getContentResolver().notifyChange(uri, null);
-		return val;
+		return (int)val;
 	}
 }

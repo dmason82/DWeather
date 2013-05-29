@@ -42,6 +42,7 @@ public class WeatherInputFragment extends Fragment implements OnClickListener {
             case R.id.goButton:
                 Intent service = new Intent(getActivity(),WeatherFetchService.class);
                 service.putExtra("city",cityText.getText().toString());
+                service.putExtra("activity",this.toString());
                 getActivity().startService(service);
         }
     }
