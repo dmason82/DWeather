@@ -33,7 +33,7 @@
 
         <provider android:name="com.mason.doug.weather.WeatherProvider" android:authorities="@string/providerAuthority" android:exported="false"></provider>
 
-        <service android:name="com.mason.doug.weather.WeatherFetchService"/>
+        <service android:name="com.mason.doug.weather.WeatherFetchService" android:exported="false"/>
     </application>
 
 </manifest>
