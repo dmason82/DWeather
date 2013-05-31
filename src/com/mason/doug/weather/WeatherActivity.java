@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 
 import com.mason.doug.weather2.R;
 
@@ -56,6 +55,7 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
         CursorLoader loader = null;
         switch (i){
             case CURRENT_NUM:
+
                 loader = new CursorLoader(getBaseContext(),WeatherProvider.CURRENT_URL,Weather.CurrentConditions.PROJECTION,null,null,null);
 
                 break;
@@ -70,6 +70,7 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         switch (cursorLoader.getId()){
             case CURRENT_NUM:
+
                 mCurrentAdapter.swapCursor(cursor);
                 break;
             case FORECAST_NUM:
