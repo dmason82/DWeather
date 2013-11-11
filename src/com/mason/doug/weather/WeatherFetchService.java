@@ -37,7 +37,10 @@ public class WeatherFetchService extends IntentService {
             values.put(Weather.CurrentConditions.temp,current.getTemp());
             values.put(Weather.CurrentConditions.wind,current.getWind());
             //().insert(WeatherProvider.CURRENT_URL,values);
+            getApplication().getContentResolver().delete(WeatherProvider.CURRENT_URL,null,null);
             getApplication().getContentResolver().insert(WeatherProvider.CURRENT_URL,values);
+            getApplication().getContentResolver().notifyChange(WeatherProvider.CURRENT_URL,null);
+            getApplication().getContentResolver().delete(WeatherProvider.FORECAST_URL,null,null);
             ArrayList<ForecastWeather> array = collection.getForecastCondtions();
             for(int i = 1; i < array.size();i++){
                 ForecastWeather forecast = array.get(i-1);
@@ -52,11 +55,14 @@ public class WeatherFetchService extends IntentService {
             }
             status = Weather.STATUS_OK;
         }
-        if(intent.hasExtra("activity")){
-            Intent localintent = new Intent(Weather.ACTIVITY_BROADCAST).putExtra(Weather.EXTENDED_DATA_STATUS,status);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(localintent);
-        }else{
+        //if(intent.hasExtra("activity")){
+            Intent localIntent = new Intent();
+            localIntent.setAction(Weather.ACTIVITY_BROADCAST);
+            localIntent.putExtra(Weather.EXTENDED_DATA_STATUS,status);
+            LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(localIntent);
+           // getApplicationContext().sendBroadcast(localIntent);
+       // }else{
 
-        }
+        //}
     }
 }

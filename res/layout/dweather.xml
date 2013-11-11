@@ -8,12 +8,13 @@
         android:id="@+id/weatherInputFragment"
         class="com.mason.doug.weather.WeatherInputFragment"
         android:layout_width="match_parent"
-        android:layout_height="100sp"
+        android:layout_height="120sp"
         tools:layout="@layout/weather_input"/>
 <fragment
         android:id="@+id/weatherCurrentFragment"
         class="com.mason.doug.weather.WeatherCurrentFragment"
         android:layout_below="@+id/weatherInputFragment"
+
         android:layout_width="match_parent"
         android:layout_height="80sp"
         tools:layout="@layout/current_conditions"

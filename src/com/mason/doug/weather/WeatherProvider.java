@@ -84,6 +84,7 @@ public class WeatherProvider extends ContentProvider {
 
             mSQLHelper = new WeatherDBHelper(getContext(),"weather",null,1);
             if(!mSQLHelper.equals(null)){
+                db = mSQLHelper.getWritableDatabase();
             return true;
             }
         }

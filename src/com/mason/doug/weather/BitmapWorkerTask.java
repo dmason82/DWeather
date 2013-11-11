@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +29,7 @@ class BitmapWorkerTask extends AsyncTask<String,Void,Bitmap> {
         URL toConnect;
         try {
             toConnect = new URL(data);
+            Log.v("URL",data);
             URLConnection connect = toConnect.openConnection();
             connect.connect();
             InputStream content = (InputStream)toConnect.getContent();

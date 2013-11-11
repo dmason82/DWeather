@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mason.doug.weather2"
+    package="com.mason.doug.weather"
     android:installLocation="auto"
     android:versionCode="4"
     android:versionName="2.1" >
@@ -17,8 +17,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:allowBackup="false" >
-        <activity android:name="com.mason.doug.weather.DWeatherActivity">
-        </activity>
+        <receiver android:name="com.mason.doug.weather.WeatherBroadcastReceiver" android:enabled="true"
+                  android:exported="false">
+            <intent-filter>
+                <action android:name="com.mason.doug.weather.ACTIVITY_BROADCAST" android:enabled="true" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="com.mason.doug.weather.AboutActivity"
             android:label="@string/title_activity_about" >
@@ -30,9 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <provider android:name="com.mason.doug.weather.WeatherProvider" android:authorities="@string/providerAuthority" android:exported="false"></provider>
-
+        <provider android:name="com.mason.doug.weather.WeatherProvider" android:authorities="@string/providerAuthority" android:exported="false" />
         <service android:name="com.mason.doug.weather.WeatherFetchService" android:exported="false"/>
     </application>
 

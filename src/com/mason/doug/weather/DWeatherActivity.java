@@ -12,7 +12,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mason.doug.weather2.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -246,7 +245,7 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
             currentDay = (TextView)row.findViewById(R.id.currentDayText);
             currentTemp = (TextView)row.findViewById(R.id.currentDegreeText); 
     		if(!(inC.isChecked())){
-    		currentTemp.setText(String.format("%.2f",((WeatherCollection)col).getCurrentConditions().getTemp())+"¡F");
+    		currentTemp.setText(String.format("%.2f",((WeatherCollection)col).getCurrentConditions().getTemp())+"F");
     		currentDay.setText(((WeatherCollection)col).getCurrentConditions().getDay());
     		currentWind.setText("Wind is: "+((WeatherCollection)col).getCurrentConditions().getWind());
     		currentHumidity.setText("Current humidity: "+((WeatherCollection)col).getCurrentConditions().getHumidity());
@@ -255,7 +254,7 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     		}
     		else
     		{
-    			currentTemp.setText(String.format("%.2f",Utilities.fToC(((WeatherCollection)col).getCurrentConditions().getTemp()))+"¡C");
+    			currentTemp.setText(String.format("%.2f",Utilities.fToC(((WeatherCollection)col).getCurrentConditions().getTemp()))+"C");
     			currentDay.setText(((WeatherCollection)col).getCurrentConditions().getDay());
     			currentWind.setText("Wind is: "+((WeatherCollection)col).getCurrentConditions().getWind());
     			currentHumidity.setText("Current humidity: "+((WeatherCollection)col).getCurrentConditions().getHumidity());
@@ -293,14 +292,14 @@ public class DWeatherActivity extends Activity implements  OnClickListener,OnEdi
     		
             forecastDay.setText(forecast.getDay());
             if(!inC.isChecked()){
-    		forecastLow.setText("Low: "+ String.format("%.2f",forecast.getLowTemp())+"¡F");
-    		forecastHigh.setText("High: "+String.format("%.2f",forecast.getHighTemp())+"¡F");
+    		forecastLow.setText("Low: "+ String.format("%.2f",forecast.getLowTemp())+"F");
+    		forecastHigh.setText("High: "+String.format("%.2f",forecast.getHighTemp())+"F");
             }
             else{
             	float lowTemp = Utilities.fToC(forecast.getLowTemp());
             	float highTemp = Utilities.fToC(forecast.getHighTemp());
-    			forecastLow.setText("Low: "+ String.format("%.2f",lowTemp)+"¡C");
-    			forecastHigh.setText("High: "+String.format("%.2f",highTemp)+"¡C");
+    			forecastLow.setText("Low: "+ String.format("%.2f",lowTemp)+"C");
+    			forecastHigh.setText("High: "+String.format("%.2f",highTemp)+"C");
             }
             forecastCondtion.setText(forecast.getCondition());
             new BitmapWorkerTask(forecastImage).execute(forecast.getIcon());

@@ -55,9 +55,6 @@ public  Object getWeather(String location,Context context)
 		weatherAlert.show();
 	}
 	else{
-		Log.v("Current Observation",currentObject.toString());
-		Log.v("current location",currentLocation.getString("full"));
-		
 		WeatherCurrentCondition currentConditions = new WeatherCurrentCondition();
 		String currentDate = currentObject.getString("observation_time_rfc822");
 		currentConditions.setDayOfWeek(currentDate.substring(0, currentDate.indexOf(",")));
@@ -115,7 +112,7 @@ private static JSONObject getJSONFromURL(String requestURL,Context context)
 		{
 			try{
 				InputStream conditionsStream = new BufferedInputStream( weatherRequest.getInputStream());
-				Log.v("Response String",conditionsStream.toString());
+				//Log.v("Response String",conditionsStream.toString());
 				BufferedReader conditionsReader =new BufferedReader(new InputStreamReader(conditionsStream));
 				StringBuilder conditionsBuilder = new StringBuilder();
 				String currentLine = null;
