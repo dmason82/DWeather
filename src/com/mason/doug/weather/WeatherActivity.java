@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
 import android.util.Log;
+import android.widget.CursorAdapter;
+import android.widget.TextView;
 
 
 /**
@@ -18,6 +22,7 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
     private WeatherBroadcastReceiver receiver;
     private static final String CURRENT_TAG = "current";
     private WeatherCurrentFragment currentFragment;
+    private WeatherForecastFragment forecastFragment;
     private WeatherInputFragment inputFragment;
     SimpleCursorAdapter mForecastAdapter;
     private static final int CURRENT_NUM = 1;
@@ -34,7 +39,9 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
 //        registerReceiver(receiver,statusFilter);
         currentFragment = (WeatherCurrentFragment)getSupportFragmentManager().findFragmentById(R.id.weatherCurrentFragment);
         inputFragment = (WeatherInputFragment)getSupportFragmentManager().findFragmentById(R.id.weatherInputFragment);
+        forecastFragment=(WeatherForecastFragment)getSupportFragmentManager().findFragmentById(R.id.weatherForecastFragment);
         getSupportLoaderManager().initLoader(CURRENT_NUM,savedInstanceState,this);
+        getSupportLoaderManager().initLoader(FORECAST_NUM,savedInstanceState,this);
     }
 
     @Override
@@ -46,7 +53,7 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
 
                 break;
             case FORECAST_NUM:
-                loader = new CursorLoader(getApplicationContext(),WeatherProvider.FORECAST_URL,Weather.CurrentConditions.PROJECTION,null,null,null);
+                loader = new CursorLoader(getApplicationContext(),WeatherProvider.FORECAST_URL,Weather.ForecastConditions.PROJECTION,null,null,null);
                 break;
         }
         return loader;
@@ -62,15 +69,30 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
                 cursor.setNotificationUri(getContentResolver(),Weather.CURRENT_URI);
                 break;
             case FORECAST_NUM:
-                mForecastAdapter.swapCursor(cursor);
-                cursor.setNotificationUri(getContentResolver(),Weather.FORECAST_URI);
+                SimpleCursorAdapter cursorAdapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),R.layout.forecast_conditions,cursor, Weather.ForecastConditions.PROJECTION,new int[]{android.R.layout.list_content}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                cursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+                    @Override
+                    public boolean setViewValue(View view, Cursor cursor, int i) {
+                        TextView forecastDay = (TextView)view.findViewById(R.id.forecastLabel);
+                        TextView forecastHigh = (TextView)view.findViewById(R.id.forecastHighText);
+                        TextView forecastLow = (TextView)view.findViewById(R.id.forecastLowText);
+                        TextView forecastCondtion = (TextView)view.findViewById(R.id.forecastConditionText);
+                        ImageView forecastImage = (ImageView)view.findViewById(R.id.forecastImage);
+                        forecastDay.setText(cursor.getString(1));
+                        forecastLow.setText("Low: "+ String.format("%.2f",cursor.getFloat(4)+"�F"));
+                        forecastHigh.setText("High: "+String.format("%.2f",cursor.getFloat(5)+"�F"));
+                        forecastCondtion.setText(cursor.getString(3));
+                        new BitmapWorkerTask(forecastImage).execute(cursor.getString(2));
+                        return true;
+                    }
+                });
+                        cursor.setNotificationUri(getContentResolver(), Weather.FORECAST_URI);
                 break;
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
     }
     @Override
     public void onPause(){
