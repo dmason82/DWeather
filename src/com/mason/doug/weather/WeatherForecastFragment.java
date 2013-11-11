@@ -1,69 +1,51 @@
 package com.mason.doug.weather;
-import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 
-import java.util.List;
 
 /**
  * Created by dougmason on 5/23/13.
  */
 public class WeatherForecastFragment extends ListFragment {
+    SimpleCursorAdapter cursorAdapter;
+    private class ForecastViewBinder implements SimpleCursorAdapter.ViewBinder{
 
-    private class ForecastConditionsAdapter extends ArrayAdapter<ForecastWeather> {
-
-        public ForecastConditionsAdapter(Context context, int resource,
-                                         int textViewResourceId, List<ForecastWeather> objects) {
-            super(context, resource, textViewResourceId, objects);
-            // TODO Auto-generated constructor stub
-        }
-
+        /*
+        		public static final String[] PROJECTION = new String[]{
+			Weather.ForecastConditions.id,      0
+			Weather.ForecastConditions.day,     1
+			Weather.ForecastConditions.icon,    2
+			Weather.ForecastConditions.condition,3
+			Weather.ForecastConditions.lowTemp,4
+			Weather.ForecastConditions.highTemp5
+		};
+         */
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View row = convertView;
-            ForecastWeather forecast = this.getItem(position);
-            if(row == null){
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                row = inflater.inflate(R.layout.forecast_conditions, parent, false);
-                row.setTag("Forecast "+Integer.toString(position));
-            }
-            TextView forecastDay = (TextView)row.findViewById(R.id.forecastLabel);
-            TextView forecastHigh = (TextView)row.findViewById(R.id.forecastHighText);
-            TextView forecastLow = (TextView)row.findViewById(R.id.forecastLowText);
-            TextView forecastCondtion = (TextView)row.findViewById(R.id.forecastConditionText);
-            ImageView forecastImage = (ImageView)row.findViewById(R.id.forecastImage);
-
-            forecastDay.setText(forecast.getDay());
-            /*if(!inC.isChecked()){
-                forecastLow.setText("Low: "+ String.format("%.2f",forecast.getLowTemp())+"�F");
-                forecastHigh.setText("High: "+String.format("%.2f",forecast.getHighTemp())+"�F");
-            }*/
-            //Temporary until I figure out how to get Celsius temperature properly notified throughout the activity.
-            if(false){
-
-            }
-            else{
-                float lowTemp = Utilities.fToC(forecast.getLowTemp());
-                float highTemp = Utilities.fToC(forecast.getHighTemp());
-                forecastLow.setText("Low: "+ String.format("%.2f",lowTemp)+"�C");
-                forecastHigh.setText("High: "+String.format("%.2f",highTemp)+"�C");
-            }
-            forecastCondtion.setText(forecast.getCondition());
-            new BitmapWorkerTask(forecastImage).execute(forecast.getIcon());
-            return row;
-
+        public boolean setViewValue(View view, Cursor cursor, int i) {
+            TextView forecastDay = (TextView)view.findViewById(R.id.forecastLabel);
+            TextView forecastHigh = (TextView)view.findViewById(R.id.forecastHighText);
+            TextView forecastLow = (TextView)view.findViewById(R.id.forecastLowText);
+            TextView forecastCondtion = (TextView)view.findViewById(R.id.forecastConditionText);
+            ImageView forecastImage = (ImageView)view.findViewById(R.id.forecastImage);
+            forecastDay.setText(cursor.getString(1));
+            forecastLow.setText("Low: "+ String.format("%.2f",cursor.getFloat(4)+"�F"));
+            forecastHigh.setText("High: "+String.format("%.2f",cursor.getFloat(5)+"�F"));
+            forecastCondtion.setText(cursor.getString(3));
+            new BitmapWorkerTask(forecastImage).execute(cursor.getString(2));
+            return true;
         }
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.weather_forecast,container,false);
-
+        cursorAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(),R.layout.forecast_conditions,getActivity().getContentResolver().query(Weather.FORECAST_URI,Weather.ForecastConditions.PROJECTION,null,null,null), Weather.ForecastConditions.PROJECTION,new int[]{android.R.layout.list_content}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        cursorAdapter.setViewBinder(new ForecastViewBinder());
+        setListAdapter(cursorAdapter);
         return v;
     }
 }
