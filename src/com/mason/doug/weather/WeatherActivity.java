@@ -69,7 +69,9 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
                 cursor.setNotificationUri(getContentResolver(),Weather.CURRENT_URI);
                 break;
             case FORECAST_NUM:
-                SimpleCursorAdapter cursorAdapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),R.layout.forecast_conditions,cursor, Weather.ForecastConditions.PROJECTION,new int[]{android.R.layout.list_content}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                Log.v("Cursor check",Integer.toString(cursor.getCount()));
+                cursor.setNotificationUri(getContentResolver(), Weather.FORECAST_URI);
+                SimpleCursorAdapter cursorAdapter = new android.widget.SimpleCursorAdapter(this,R.layout.forecast_conditions,cursor, Weather.ForecastConditions.PROJECTION,new int[]{android.R.layout.list_content}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
                 cursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
                     @Override
                     public boolean setViewValue(View view, Cursor cursor, int i) {
@@ -86,7 +88,7 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
                         return true;
                     }
                 });
-                        cursor.setNotificationUri(getContentResolver(), Weather.FORECAST_URI);
+
                 break;
         }
     }

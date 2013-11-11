@@ -39,7 +39,6 @@ public class WeatherFetchService extends IntentService {
             //().insert(WeatherProvider.CURRENT_URL,values);
             getApplication().getContentResolver().delete(WeatherProvider.CURRENT_URL,null,null);
             getApplication().getContentResolver().insert(WeatherProvider.CURRENT_URL,values);
-            getApplication().getContentResolver().notifyChange(WeatherProvider.CURRENT_URL,null);
             getApplication().getContentResolver().delete(WeatherProvider.FORECAST_URL,null,null);
             ArrayList<ForecastWeather> array = collection.getForecastCondtions();
             for(int i = 1; i < array.size();i++){
@@ -50,7 +49,7 @@ public class WeatherFetchService extends IntentService {
                 cv.put(Weather.ForecastConditions.highTemp,forecast.getHighTemp());
                 cv.put(Weather.ForecastConditions.icon,forecast.getIcon());
                 cv.put(Weather.ForecastConditions.lowTemp,forecast.getLowTemp());
-               // getContentResolver().update(WeatherProvider.FORECAST_URL,cv,Weather.ForecastConditions.id+"="+i,null);
+                getContentResolver().insert(WeatherProvider.FORECAST_URL,cv);
 
             }
             status = Weather.STATUS_OK;
