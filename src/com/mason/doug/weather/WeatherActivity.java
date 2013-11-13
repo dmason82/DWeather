@@ -71,24 +71,36 @@ public class WeatherActivity extends FragmentActivity implements LoaderManager.L
             case FORECAST_NUM:
                 Log.v("Cursor check",Integer.toString(cursor.getCount()));
                 cursor.setNotificationUri(getContentResolver(), Weather.FORECAST_URI);
-                SimpleCursorAdapter cursorAdapter = new android.widget.SimpleCursorAdapter(this,R.layout.forecast_conditions,cursor, Weather.ForecastConditions.PROJECTION,new int[]{android.R.layout.list_content}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                int[] to = {R.id.forecastLabel,R.id.forecastHighText,R.id.forecastLowText,R.id.forecastConditionText,R.id.forecastImage};
+                SimpleCursorAdapter cursorAdapter = new android.widget.SimpleCursorAdapter(this,R.layout.forecast_conditions,cursor, Weather.ForecastConditions.PROJECTION,to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
                 cursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
                     @Override
                     public boolean setViewValue(View view, Cursor cursor, int i) {
-                        TextView forecastDay = (TextView)view.findViewById(R.id.forecastLabel);
-                        TextView forecastHigh = (TextView)view.findViewById(R.id.forecastHighText);
-                        TextView forecastLow = (TextView)view.findViewById(R.id.forecastLowText);
-                        TextView forecastCondtion = (TextView)view.findViewById(R.id.forecastConditionText);
-                        ImageView forecastImage = (ImageView)view.findViewById(R.id.forecastImage);
-                        forecastDay.setText(cursor.getString(1));
-                        forecastLow.setText("Low: "+ String.format("%.2f",cursor.getFloat(4)+"�F"));
-                        forecastHigh.setText("High: "+String.format("%.2f",cursor.getFloat(5)+"�F"));
-                        forecastCondtion.setText(cursor.getString(3));
-                        new BitmapWorkerTask(forecastImage).execute(cursor.getString(2));
-                        return true;
-                    }
-                });
-
+                        if(view.getId()==R.id.forecastLabel){
+                            TextView forecastView = (TextView)view;
+                            forecastView.setText(cursor.getString(1));
+                            Log.v("Day!",cursor.getString(1));
+                            return true;
+                        }
+                        else if(view.getId()==R.id.forecastLowText){
+                            ((TextView)view).setText("Low: " + String.format("%.2f", cursor.getFloat(4)) + "\u00B0F");
+                            return true;
+                        }
+                        else if(view.getId()==R.id.forecastHighText){
+                            ((TextView)view).setText("High: "+String.format("%.2f",cursor.getFloat(5))+"\u00B0F");
+                            return true;
+                        }
+                        else if(view.getId()==R.id.forecastConditionText){
+                            ((TextView)view).setText(cursor.getString(3));
+                            return true;
+                        }
+                        else if(view.getId()==R.id.forecastImage){
+                            new BitmapWorkerTask(((ImageView)view)).execute(cursor.getString(2));
+                            return true;
+                        }
+                        return false;
+                }});
+                forecastFragment.setListAdapter(cursorAdapter);
                 break;
         }
     }
